@@ -28,12 +28,64 @@ export class LLM {
     }
   }
 
-  async getAccomodations(budget: any,purpose: any, startDate: any, endDate: any, contry: any): Promise<string | null> {
+  async getAccomodations(budget: any, purpose: any, startDate: any, endDate: any, contry: any): Promise<string | null> {
     try {
       const response = await this.client.responses.create({
         model: "gpt-4o",
         tools: [{ type: "web_search_preview_2025_03_11" }],
-        input: "What was a positive news story from today?",
+        input: `You are a travel API that exclusively returns structured JSON data. Generate accommodation options for travelers visiting {destination} based on their specific trip details.
+
+Trip Details:
+- Destination: {destination}
+- Start Date: {startDate}
+- End Date: {endDate} 
+- Total Budget: ${budget}
+- Trip Purpose: {purpose}
+
+Create a detailed JSON response with the following structure:
+{
+  "destination": "{destination}",
+  "totalNights": {totalNights},
+  "checkIn": "{startDate}",
+  "checkOut": "{endDate}",
+  "recommendedOption": 1,
+  "options": [
+    {
+      "id": 1,
+      "name": "Hotel Name",
+      "description": "Detailed description of the accommodation highlighting its unique features and appeal.",
+      "pricePerNight": 200,
+      "totalPrice": 1000,
+      "rating": 4.7,
+      "imageUrl": "https://images.unsplash.com/photo-example",
+      "location": "Neighborhood, City",
+      "amenities": ["Free WiFi", "Pool", "Breakfast included", "Fitness center"],
+      "roomType": "Deluxe Room",
+      "cancellationPolicy": "Free cancellation until 3 days before check-in",
+      "distance": "1.5 miles from city center",
+      "promoAvailable": true,
+      "savings": 150,
+      "highlights": ["Excellent location", "Great value", "Staff service"]
+    }
+  ]
+}
+
+Important requirements:
+1. Include 3-4 accommodation options at different price points (ensure they fit within the total budget of ${budget})
+2. Recommend accommodations that specifically match the trip purpose: {purpose}
+3. Ensure all options are real, well-known hotels or accommodations in {destination}
+4. Calculate totalPrice based on the actual number of nights between {startDate} and {endDate}
+5. Provide actual neighborhood names for locations
+6. At least one option should have a Capital One promotion with savings
+7. For business trips: prioritize locations near business districts with work amenities
+8. For family trips: prioritize family-friendly accommodations with appropriate amenities
+9. For adventure/leisure trips: suggest accommodations near major attractions or with special experiences
+10. For romantic trips: prioritize accommodations with special couples amenities or views
+11. Use realistic URLs for images (use unsplash.com URLs)
+12. Ensure all JSON is valid and properly formatted
+13. Only return the JSON object with no additional text or explanation
+
+Return accommodations that best represent the destination's culture, match the trip purpose of {purpose}, and provide good value within the specified budget of ${budget}.`,
       });
       return response.output_text;
     } catch (error) {
@@ -42,7 +94,7 @@ export class LLM {
     }
   }
 
-  async getActivies(): Promise<string | null> {
+  async getActivies(budget: any, purpose: any, startDate: any, endDate: any, contry: any, ): Promise<string | null> {
     try {
       const response = await this.client.responses.create({
         model: "gpt-4o",

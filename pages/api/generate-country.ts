@@ -29,16 +29,22 @@ export default async function handler(
     // This is a mock response for demonstration purposes
 
     const Agent = new LLM();
+    let parsedCountry;
+    let hasNotFound = true;
 
-    const Country = await Agent.getCountry(budget, purpose, startDate, endDate);
+    for (let i = 0; i < 3; i++) {
+      const Country = await Agent.getCountry(budget, purpose, startDate, endDate);
+      if (Country) {
+        parsedCountry = JSON.parse(Country);
+        hasNotFound = false;
+        break;
+      }
+    }
     
 
-    if (!Country) {
+    if (!parsedCountry || hasNotFound) {
       return res.status(500).json({ error: 'Failed to generate itinerary' });
     }
-
-    // Parse the response to match the DestinationData type
-    const parsedCountry: DestinationData = JSON.parse(Country);
 
     
     return res.status(200).json(parsedCountry);

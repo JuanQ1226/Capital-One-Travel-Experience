@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import client from '../../database/db'; // Import the database client
-import {LLM} from '../../LLM_Utils/LLM';
+
 
 
 
@@ -30,21 +30,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if( req.method === 'POST'){
       const { countries, activities } = req.body;
 
-    console.log('Received data from front-end:', { countries, activities });
+      console.log('Received data from front-end:', { countries, activities });
 
-    // Forward to LLM.ts or any other processing logic here
-    const llmResponse = await fetch('api/generate-country', { 
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ countries, activities })
-    });
-  }
-    res.status(200).json(result.rows); // Send data from the query result to the frontend
+    }
+    res.status(200).json(result); // Send data from the query result to the frontend
   } catch (error) {
     console.error('Error fetching data:', error);  // Log the actual error for better debugging
-    res.status(500).json({ message: 'Error fetching data', error: error.message });  // Send a 500 status and error message
+    res.status(500).json({ message: 'Error fetching data', error });  // Send a 500 status and error message
   }
 }
 

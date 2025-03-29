@@ -109,7 +109,7 @@ Return accommodations that best represent the destination's culture, match the t
     }
   }
 
-  async getActivies(
+  async getTransportation(
     budget: any,
     purpose: any,
     startDate: any,

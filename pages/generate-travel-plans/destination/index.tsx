@@ -112,7 +112,7 @@ const GeneratedDestinationPage = ({
 
   if (error || !destination) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-red-300 to-gray-100 p-4">
         <Card
           radius="md"
           shadow="md"
@@ -136,12 +136,12 @@ const GeneratedDestinationPage = ({
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 py-8 px-4">
+    <div className="min-h-screen py-8 px-4 bg-gradient-to-tr from-[#0c3152] to-gray-100">
       <div className="max-w-4xl mx-auto">
         {/* Progress indicator */}
         <div className="mb-8">
           <Progress
-            className="w-full"
+            className="w-full text-gray-700"
             color="danger"
             value={25}
             label="Step 1 of 4: Destination Selection"
@@ -216,8 +216,8 @@ const GeneratedDestinationPage = ({
           <Button
             as={Link}
             href="/user-form"
-            variant="bordered"
-            className="border-red-500 text-red-500"
+            variant="faded"
+            color="danger"
           >
             Change Preferences
           </Button>
@@ -237,7 +237,7 @@ const GeneratedDestinationPage = ({
           </Button>
         </div>
 
-        <div className="text-center mt-8 text-gray-500 text-sm">
+        <div className="text-center mt-8 text-gray-400 text-sm">
           <p>
             This destination was selected based on your preferences by Capital
             One Travel AI.

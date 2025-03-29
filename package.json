@@ -10,6 +10,9 @@
     "lint": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@heroui/button": "2.2.16",
     "@heroui/code": "2.2.12",
     "@heroui/input": "2.4.16",
@@ -17,10 +20,12 @@
     "@heroui/link": "2.2.13",
     "@heroui/listbox": "2.3.15",
     "@heroui/navbar": "2.2.14",
+    "@heroui/react": "^2.7.5",
     "@heroui/snippet": "2.2.17",
     "@heroui/switch": "2.2.14",
     "@heroui/system": "2.4.12",
     "@heroui/theme": "2.4.12",
+    "@internationalized/date": "^3.7.0",
     "@react-aria/visually-hidden": "3.8.20",
     "axios": "^1.8.4",
     "clsx": "2.1.1",
@@ -31,7 +36,8 @@
     "next-themes": "^0.4.4",
     "openai": "^4.90.0",
     "react": "18.3.1",
-    "react-dom": "18.3.1"
+    "react-dom": "18.3.1",
+    "react-fontawesome": "^1.7.1"
   },
   "devDependencies": {
     "@types/node": "20.5.7",

@@ -50,6 +50,13 @@ const UserFormPage = () => {
         budget: budget,
         purpose: purpose
       };
+
+      // Save preferences to local storage
+      localStorage.setItem("startDate", startDate?.toString() || "");
+      localStorage.setItem("endDate", endDate?.toString() || "");
+      localStorage.setItem("budget", budget);
+      localStorage.setItem("purpose", purpose);
+      
       
       // Make API request
       const response = await fetch('/api/generate-country', {
@@ -60,8 +67,6 @@ const UserFormPage = () => {
         body: JSON.stringify(formData),
       });
       
-      // Save the data to local storage
-      localStorage.setItem('countryData', JSON.stringify(formData));
 
       if (!response.ok) {
         throw new Error('Failed to generate itinerary');

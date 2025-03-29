@@ -85,12 +85,16 @@ const GeneratedDestinationPage = ({
   const handleContinue = async () => {
     setLoading(true);
     try {
+      const startDate = localStorage.getItem("startDate");
+      const endDate = localStorage.getItem("endDate");
+      const budget = localStorage.getItem("budget");
+      const purpose = localStorage.getItem("purpose");
       const accomodationData = await fetch("/api/generate-accomodations", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ destination: destination?.name }),
+        body: JSON.stringify({ country: destination?.name , startDate, endDate, budget, purpose }),
       });
       if (!accomodationData.ok) {
         throw new Error("Failed to fetch accommodation data");

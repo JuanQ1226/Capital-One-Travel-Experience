@@ -16,6 +16,57 @@ export class LLM {
     this.client = new OpenAI({ apiKey: apiKeyText });
   }
 
+  // async fetchAndProcessData() {
+  //   try {
+  //     const response = await fetch('/api/db-handler'); // Fetch from the API route (adjust if needed)
+  //     const result = await response.json();
+  //     console.log('Data received:', result); // Log the data received
+
+  //     // Format the data
+  //     const formattedData = result.reduce((acc: any, row: any) => {
+  //       // Check if the country already exists
+  //       if (!acc[row.country]) {
+  //         acc[row.country] = {
+  //           countries: new Set(),
+  //           activities: new Set()
+  //         };
+  //       }
+
+  //       // We need to ensure unique entries of countries and ratings before adding to the set
+  //       acc[row.country].countries.add(`${row.country} Rating ${row.rating}/5`);
+
+  //       // Same here but add activities and ratings
+  //       acc[row.country].activities.add(`${row.activity} Rating ${row.rating}/5`);
+
+  //       return acc;
+  //     }, {});
+
+  //     // Separate results
+  //     const countriesString = Object.entries(formattedData)
+  //       .map(([country, { countries }]: [string, { countries: Set<string> }]) => {
+  //         return `${[...countries].join(', ')}`;
+  //       })
+  //       .join('\n');
+
+  //     const activitiesString = Object.entries(formattedData)
+  //       .map(([country, { activities }]: [string, { activities: Set<string> }]) => {
+  //         return `${[...activities].join(', ')}`;
+  //       })
+  //       .join('\n');
+
+  //     // Debugging log
+  //     console.log('Most enjoyed countries ' + countriesString);
+  //     console.log('Most enjoyed activities ' + activitiesString);
+
+  //     // Return both formatted strings for further use
+  //     return { countriesString, activitiesString };
+
+  //   } catch (error) {
+  //     console.error('Error fetching and processing data:', error);
+  //     return null;
+  //   }
+  // }  
+
   async getCountry(
     budget: any,
     purpose: any,

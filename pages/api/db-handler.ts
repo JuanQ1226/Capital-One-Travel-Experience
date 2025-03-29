@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import client from '../../database/db'; // Import the database client
+import client from '@/Database/db'; // Import the database client
 
 
 

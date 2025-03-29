@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-class LLM {
+export class LLM {
   private client: OpenAI;
 
   constructor() {
@@ -58,4 +58,3 @@ class LLM {
 
 
 }
-module.exports(LLM)

@@ -65,7 +65,6 @@ const UserFormPage = () => {
         endDate: endDate?.toString(),
         budget: budget,
         purpose: purpose,
-        usePrevTrips: usePreviousInfo
       };
 
       // Save preferences to local storage
@@ -114,19 +113,23 @@ const UserFormPage = () => {
         className="absolute inset-0 object-cover w-full h-full"
         priority
       />
-      <div className="absolute inset-0 bg-black opacity-20"></div>
+      <div className="absolute inset-0 bg-black opacity-50"></div>
       <Card radius="md" shadow="md" className="p-6 bg-white">
         <form
           onSubmit={handleSubmit}
           className="flex flex-col items-center justify-center bg-white gap-4"
         >
-          <h1 className="text-4xl font-bold mb-4 text-black">
-            Plan Your Journey
-          </h1>
-          <p className="text-tiny mb-4 text-gray-700">
-            Let our AI create a personalized travel itinerary based on your
-            preferences and past experiences.
-          </p>
+
+          <div>
+            <h1 className="text-4xl font-bold mb-2 text-black">
+              Plan Your Journey
+            </h1>
+            <p className="text-tiny mb-3 text-gray-700">
+              Let our AI create a personalized travel itinerary based on your
+              preferences and past experiences.
+            </p>
+          </div>
+          
           <div className="flex flex-row gap-4">
             <div className="flex flex-col justify-center items-center">
               <p className="text-tiny mb-2 text-gray-700">

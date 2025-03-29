@@ -67,7 +67,7 @@ const UserFormPage = () => {
       
       // Navigate to results page with the data
       router.push({
-        pathname: '/itinerary-results',
+        pathname: '/generate-travel-plans/destination',
         query: { data: JSON.stringify(itineraryData) }
       });
     } catch (error) {

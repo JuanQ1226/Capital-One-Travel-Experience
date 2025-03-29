@@ -11,7 +11,7 @@ export default async function handler(
   }
 
   try {
-    const { startDate, endDate, budget, purpose } = req.body;
+    const { startDate, endDate, budget, purpose, destination, hotelName} = req.body;
     
     // Here you would typically make a call to an LLM API like OpenAI
     // This is a mock response for demonstration purposes
@@ -20,7 +20,7 @@ export default async function handler(
     let parsedCountry;
 
     for (let i = 0; i < 3; i++) {
-      const Country = await Agent.getCountry(budget, purpose, startDate, endDate);
+      const Country = await Agent.getTransportation(budget, purpose, startDate, endDate, destination, hotelName);
       if (Country) {
         try {
           const jsonMatch = Country.match(/{[\s\S]*}/);

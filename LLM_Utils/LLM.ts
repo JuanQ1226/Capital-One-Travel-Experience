@@ -114,7 +114,8 @@ Return accommodations that best represent the destination's culture, match the t
     purpose: any,
     startDate: any,
     endDate: any,
-    contry: any
+    contry: any,
+    hotelName: any
   ): Promise<string | null> {
     try {
       const response = await this.client.responses.create({

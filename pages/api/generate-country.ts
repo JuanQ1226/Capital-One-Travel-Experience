@@ -32,10 +32,16 @@ export default async function handler(
     let parsedCountry;
     let hasNotFound = true;
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 20; i++) {
       const Country = await Agent.getCountry(budget, purpose, startDate, endDate);
       if (Country) {
-        parsedCountry = JSON.parse(Country);
+        try {
+          parsedCountry = JSON.parse(Country);
+        } 
+        catch (error) {
+          console.error('Error parsing JSON:', error);
+          continue;
+        }
         hasNotFound = false;
         break;
       }

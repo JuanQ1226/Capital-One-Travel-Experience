@@ -14,7 +14,7 @@ export class LLM {
     this.client = new OpenAI({ apiKey: apiKeyText });
   }
 
-  async getCountry(budget: any): Promise<string | null> {
+  async getCountry(budget: any,purpose: any, startDate: any, endDate: any): Promise<string | null> {
     try {
       const response = await this.client.responses.create({
         model: "gpt-4o",

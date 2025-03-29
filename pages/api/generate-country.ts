@@ -30,7 +30,7 @@ export default async function handler(
 
     const Agent = new LLM();
 
-    const Country = await Agent.getCountry(budget);
+    const Country = await Agent.getCountry(budget, purpose, startDate, endDate);
 
     
     return res.status(200).json(Country);

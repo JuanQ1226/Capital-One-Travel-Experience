@@ -5,8 +5,63 @@ import { Roboto } from "next/font/google";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlane, faMapMarkedAlt, faDollar, faPlaneDeparture } from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useState } from 'react';
+
 
 export default function IndexPage() {
+
+// Database
+  const [data, setData] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/api/db-handler');  // Call API route
+        const result = await response.json();
+        console.log('Data received:', result); // Log the data received from the API
+        setData(result);
+        
+        const formattedData = result.reduce((acc: any, row: any) => {
+          // Check if the country already exists in the accumulator
+          if (!acc[row.country]) {
+            acc[row.country] = [];
+          }
+        
+          // Add the activity and rating for this country
+          acc[row.country].push(`Activity: ${row.activity} - Rating: ${row.rating}/5`);
+        
+          return acc;
+        }, {});
+
+        const formattedDataString = Object.entries(formattedData)
+          .map(([country, activities]: [string, string[]]) => {
+            return `- **${country}**:\n  ${activities.join('\n  ')}`;
+          })
+          .join('\n');
+
+        // Optionally, log the result for debugging
+        console.log(formattedDataString);
+
+        // // Assuming result.data is an array of rows, you can process it like this:
+        // const formattedData = result.map((row: any) => {
+        //   return `Take the user's past trips into consideration: This user has travelled to: ${row.country} and did ${row.activity} and gave it a rating of ${row.rating} out of 5 stars`;  // Customize based on your data structure
+        // }).join('\n');  // Join all rows into one string, separated by newlines
+
+        // console.log('Formatted Data:', formattedData);  // Log the processed formatted data
+        // setData(formattedData);  // Set the processed data into state
+
+
+        
+
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+// Database end
+
   return (
     <div className={"flex flex-row h-screen w-full"}>
       <div className="relative w-1/2 flex items-center justify-center">

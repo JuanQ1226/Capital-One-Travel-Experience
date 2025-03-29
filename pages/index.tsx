@@ -88,7 +88,7 @@ export default function IndexPage() {
             Book Your Next Adventure
           </h1>
           <p className="mt-1 md:mt-2 text-gray-600 text-base md:text-lg">
-            Discover the world with our travel recommendations platform.
+            Discover the world with our travel recommendations platform
           </p>
           <Link href="/user-form">
             <Button size="lg" className="mt-4 md:mt-6 bg-red-600 text-white hover:bg-red-700 px-6 md:px-8 py-2 md:py-3 rounded-full font-medium transition-all duration-300 transform hover:scale-105">

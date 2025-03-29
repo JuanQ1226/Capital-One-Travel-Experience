@@ -2,7 +2,6 @@ import React from 'react';
 import { GetServerSideProps } from 'next';
 import { parse } from 'cookie';
 import Link from 'next/link';
-import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDays, faHotel, faSuitcase, faPlane, faArrowRight, faArrowLeft, faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons';
 import { Card, Button, Divider, Badge, Chip } from "@heroui/react"; // Using HeroUI components

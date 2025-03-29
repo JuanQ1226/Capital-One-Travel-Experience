@@ -22,11 +22,11 @@ export default function IndexPage() {
           <Link href="/user-form">
             <Button size="lg" className="mt-4 md:mt-6 bg-red-600 text-white hover:bg-red-700 px-6 md:px-8 py-2 md:py-3 rounded-full font-medium transition-all duration-300 transform hover:scale-105">
               Get Started
-            </Button>
+            </Button> {/*button of book*/}
           </Link>
         </Card>
         <div className="w-full h-full relative">
-          <Image
+          <Image //photo
             src="/main_bg.jpg"
             alt="Travel Destination"
             layout="fill"
@@ -34,7 +34,7 @@ export default function IndexPage() {
             priority
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-black/10"></div> {/*Overlay for background*/}
       </div>
 
       {/* Right Section - Features */}
@@ -47,9 +47,9 @@ export default function IndexPage() {
         
         <Divider className="w-full md:w-3/4 my-4 md:my-6" />
         
-        <div className="grid gap-6 md:gap-12 w-full max-w-xl">
+        <div className="grid gap-6 md:gap-5 w-full max-w-xl">
           {/* Feature 1 */}
-          <div className="p-4 md:p-6 rounded-xl hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-red-200 hover:bg-red-50/30">
+          <div className="p-4 md:p-6 rounded-xl border border-gray-100">
             <div className="flex items-center gap-3 md:gap-4">
               <div className="p-3 md:p-4 bg-red-100 rounded-full">
                 <FontAwesomeIcon
@@ -65,7 +65,7 @@ export default function IndexPage() {
           </div>
 
           {/* Feature 2 */}
-          <div className="feature-card p-4 md:p-6 rounded-xl hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-red-200 hover:bg-red-50/30">
+          <div className="feature-card p-4 md:p-6 rounded-xl border border-gray-100">
             <div className="flex items-center gap-3 md:gap-4">
               <div className="p-3 md:p-4 bg-red-100 rounded-full">
                 <FontAwesomeIcon
@@ -81,7 +81,7 @@ export default function IndexPage() {
           </div>
 
           {/* Feature 3 */}
-          <div className="feature-card p-4 md:p-6 rounded-xl hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-red-200 hover:bg-red-50/30">
+          <div className="feature-card p-4 md:p-6 rounded-xl border-gray-100">
             <div className="flex items-center gap-3 md:gap-4">
               <div className="p-3 md:p-4 bg-red-100 rounded-full">
                 <FontAwesomeIcon

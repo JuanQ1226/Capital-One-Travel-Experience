@@ -21,25 +21,22 @@ export default async function handler(
   }
   const userId = user.id;
   console.log("User ID from cookie:", userId);
-
-  // Connect to MongoDB
-  const client = new MongoClient(process.env?.MONGO_URI || "no-found", {
-    serverApi: {
-      version: ServerApiVersion.v1,
-      strict: true,
-      deprecationErrors: true,
-    },
-  });
-
-  const db = client.db("travel");
-  const collection = db.collection("user_trip");
-  // Fetch trips for the authenticated user
-  const trips = await collection.find({ userId: userId }).limit(5).toArray();
-
-  console.log("Fetched trips:", trips);
-  if (!trips) {
-    return res.status(500).json({ error: "Failed to fetch trips" });
+  let trips : any[]= [];
+  if (req.body.usePrevTrips) {
+    // Connect to MongoDB
+    const client = new MongoClient(process.env?.MONGO_URI || "no-found", {
+      serverApi: {
+        version: ServerApiVersion.v1,
+        strict: true,
+        deprecationErrors: true,
+      },
+    });
+    const db = client.db("travel");
+    const collection = db.collection("user_trip");
+    // Fetch trips for the authenticated user
+    trips = await collection.find({ userId: userId }).limit(5).toArray();
   }
+
   try {
     const { startDate, endDate, budget, purpose } = req.body;
 

@@ -271,7 +271,7 @@ const TransportationPage = ({ transportationData, error }: TransportationPagePro
           <div className="mb-6">
             <h1 className="text-3xl font-bold mb-2">How You'll Travel to {transportationData.destination as string}</h1>
             <p className="text-gray-600">
-              Arrival: {new Date(transportationData.arrivalDate).toLocaleDateString()} • Departure: {new Date(transportationData.departureDate).toLocaleDateString()}
+              Arrival: {localStorage.getItem("startDate")} • Departure: {localStorage.getItem("endDate")}
             </p>
             <p className="mt-4 text-gray-700">
               We've selected the best transportation options based on your preferences. Each option offers different benefits in terms of comfort, price, and convenience.

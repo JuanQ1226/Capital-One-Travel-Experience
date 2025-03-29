@@ -11,74 +11,6 @@ import Image from "next/image";
 
 export default function IndexPage() {
 
-// // Database API Call
-//   const [data, setData] = useState<any>(null);
-
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         const response = await fetch('/api/db-handler');  // Call API route
-//         const result = await response.json();
-//         console.log('Data received:', result); // Log the data
-//         setData(result);
-        
-//         const formattedData = result.reduce((acc: any, row: any) => {
-//           // Check if the country already exists
-//           if (!acc[row.country]) {
-//             acc[row.country] = {
-//               countries: new Set(),
-//               activities: new Set()
-//             };
-//           }
-        
-//           // We need to ensure unique entries of countries and ratings before adding to the set
-//           acc[row.country].countries.add(`${row.country} Rating ${row.rating}/5`);
-        
-//           // Same here but add activities and ratings
-//           acc[row.country].activities.add(`${row.activity} Rating ${row.rating}/5`);
-        
-//           return acc;
-//         }, {});
-        
-//         // Separate results
-//         const countriesString = Object.entries(formattedData)
-//           .map(([country, { countries }]: [string, { countries: Set<string> }]) => {
-//             return `${[...countries].join(', ')}`;
-//           })
-//           .join('\n');
-        
-//         const activitiesString = Object.entries(formattedData)
-//           .map(([country, { activities }]: [string, { activities: Set<string> }]) => {
-//             return `${[...activities].join(', ')}`;
-//           })
-//           .join('\n');
-        
-//         // Debugging Log
-//         //console.log('Countries and Ratings:');
-//         console.log('Most enjoyed countries ' + countriesString);
-//         //console.log('\nActivities and Ratings:');
-//         console.log('Most enjoyed activities ' + activitiesString);
-
-//         const sendToLLMResponse = await fetch('/api/db-handler', {
-//           method: 'POST',
-//           headers: {
-//             'Content-Type': 'application/json',
-//           },
-//           body: JSON.stringify({ countries: countriesString, activities: activitiesString }),
-//         });
-
-//         const sendToLLMResult = await sendToLLMResponse.json();
-//         console.log('Response from db-handler:', sendToLLMResult);
-
-//       } catch (error) {
-//         console.error('Error fetching data:', error);
-//       }
-//     };
-
-//     fetchData();
-//   }, []);
-// Database API Call End
-
   return (
     <div className="flex flex-col md:flex-row w-full overflow-hidden">
       {/* Left Section - Hero Image & CTA Card */}
@@ -111,12 +43,12 @@ export default function IndexPage() {
       {/* Right Section - Features */}
       <div className="w-full md:w-1/2 lg:w-5/12 flex flex-col items-center justify-start px-6 md:px-12 py-8 md:py-10 bg-white">
         <div className="text-center mb-6 md:mb-8">
-          <p className="mt-2 md:mt-3 font-semibold text-1l md:text-3xl font-sans">
+          <span className="font-semibold md:text-3xl font-serif">
             Your gateway to unforgettable journeys
-          </p>
+          </span>
         </div>
         
-        <Divider className="w-full md:w-3/4 my-4 md:my-6" />
+        <Divider className="my-2"/>
         
         <div className="grid gap-6 md:gap-1 w-full max-w-xl">
           {/* Feature 1 */}
@@ -152,7 +84,7 @@ export default function IndexPage() {
           </div>
 
           {/* Feature 3 */}
-          <div className="feature-card p-4 md:p-6 rounded-xl border-gray-100">
+          <div className="feature-card p-4 md:p-6 rounded-xl border-gray-100 border">
             <div className="flex items-center gap-3 md:gap-4">
               <div className="p-3 md:p-4 bg-red-100 rounded-full">
                 <FontAwesomeIcon

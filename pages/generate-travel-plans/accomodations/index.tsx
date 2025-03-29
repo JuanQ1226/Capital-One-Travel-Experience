@@ -215,12 +215,12 @@ const AccommodationsPage = ({ accommodationData, error }: AccommodationsPageProp
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 py-8 px-4">
+    <div className="min-h-screen py-8 px-4 bg-gradient-to-tr from-[#0c3152] to-gray-100">
       <div className="max-w-4xl mx-auto">
         {/* Progress indicator */}
         <div className="mb-8">
           <Progress
-            className="w-full"
+            className="w-full text-gray-700"
             color="danger"
             value={50}
             label="Step 2 of 4: Accommodation Selection"
@@ -371,7 +371,7 @@ const AccommodationsPage = ({ accommodationData, error }: AccommodationsPageProp
           </div>
         </Card>
 
-        <div className="text-center mt-8 text-gray-500 text-sm">
+        <div className="text-center mt-8 text-gray-300 text-sm">
           <p>All accommodations are carefully selected based on your preferences and budget.</p>
           <p>Prices include all taxes and fees. Capital One Travel price match guarantee applies.</p>
         </div>

@@ -83,9 +83,9 @@ export default function IndexPage() {
     <div className="flex flex-col md:flex-row w-full overflow-hidden">
       {/* Left Section - Hero Image & CTA Card */}
       <div className="relative w-full md:w-1/2 lg:w-7/12 h-[40vh] md:h-screen min-h-screen flex items-center justify-center">
-        <Card className="aspect-auto w-5/6 md:w-3/4 max-w-md absolute z-10 p-6 md:p-8 bg-white rounded-lg shadow-2xl text-center flex flex-col items-center justify-center gap-3 md:gap-4">
+        <Card className="aspect-auto w-5/6 md:w-3/4 max-w-md absolute z-10 p-10 md:p-8 bg-white rounded-lg shadow-2xl text-center flex flex-col items-center justify-center gap-3 md:gap-4">
           <h1 className="font-semibold font-serif text-3xl md:text-4xl">
-            Discover Your Next Adventure
+            Book Your Next Adventure
           </h1>
           <p className="mt-1 md:mt-2 text-gray-600 text-base md:text-lg">
             Discover the world with our travel recommendations platform.
@@ -101,6 +101,7 @@ export default function IndexPage() {
             src="/main_bg.jpg"
             alt="Travel Destination"
             fill
+            className="object-cover"
             priority
           />
         </div>
@@ -110,14 +111,14 @@ export default function IndexPage() {
       {/* Right Section - Features */}
       <div className="w-full md:w-1/2 lg:w-5/12 flex flex-col items-center justify-start px-6 md:px-12 py-8 md:py-10 bg-white">
         <div className="text-center mb-6 md:mb-8">
-          <p className="mt-2 md:mt-3 font-semibold text-xl md:text-3xl">
-            Your gateway to unforgettable journeys.
+          <p className="mt-2 md:mt-3 font-semibold text-1l md:text-3xl font-sans">
+            Your gateway to unforgettable journeys
           </p>
         </div>
         
         <Divider className="w-full md:w-3/4 my-4 md:my-6" />
         
-        <div className="grid gap-6 md:gap-5 w-full max-w-xl">
+        <div className="grid gap-6 md:gap-1 w-full max-w-xl">
           {/* Feature 1 */}
           <div className="p-4 md:p-6 rounded-xl border border-gray-100">
             <div className="flex items-center gap-3 md:gap-4">

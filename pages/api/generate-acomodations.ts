@@ -18,11 +18,17 @@ export default async function handler(
     let ParsedAcomodations;
     let hasNotFound = true;
 
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 3; i++) {
       const result = await Agent.getAccomodations(budget, purpose, startDate, endDate,country);
       if (result) {
         try {
-          ParsedAcomodations = JSON.parse(result);
+          const jsonMatch = result.match(/{[\s\S]*}/);
+          if (jsonMatch){
+            ParsedAcomodations = JSON.parse(jsonMatch[0]);
+            break
+          }
+          continue
+    
         } 
         catch (error) {
           console.error('Error parsing JSON:', error);

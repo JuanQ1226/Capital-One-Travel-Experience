@@ -1,14 +1,18 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import {LLM} from '../../LLM_Utils/LLM'
 
-type ItineraryData = {
-  destination: string;
-  activities: string[];
-  accommodations: string[];
-  transportation: string[];
-  totalCost: number;
-  recommendations: string[];
-}
+type DestinationData = {
+  name: string;
+  description: string;
+  highlights: string[];
+  bestTimeToVisit: string;
+  weather: string;
+  currency: string;
+  language: string;
+  imageUrl: string;
+  safetyInfo: string;
+  visaRequirements: string;
+};
 
 export default async function handler(
   req: NextApiRequest,

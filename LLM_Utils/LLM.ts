@@ -28,11 +28,11 @@ export class LLM {
     }
   }
 
-  async getAccomodations(): Promise<string | null> {
+  async getAccomodations(budget: any,purpose: any, startDate: any, endDate: any, contry: any): Promise<string | null> {
     try {
       const response = await this.client.responses.create({
         model: "gpt-4o",
-        tools: [{ type: "web_search_preview" }],
+        tools: [{ type: "web_search_preview_2025_03_11" }],
         input: "What was a positive news story from today?",
       });
       return response.output_text;

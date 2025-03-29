@@ -19,7 +19,7 @@ export default async function handler(
     let hasNotFound = true;
 
     for (let i = 0; i < 20; i++) {
-      const result = await Agent.getCountry(budget, purpose, startDate, endDate);
+      const result = await Agent.getAccomodations(budget, purpose, startDate, endDate,country);
       if (result) {
         try {
           ParsedAcomodations = JSON.parse(result);

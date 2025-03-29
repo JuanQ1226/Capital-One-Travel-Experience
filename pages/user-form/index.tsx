@@ -1,4 +1,4 @@
-import { Calendar, Card, DatePicker, DateValue, Input, Select, SelectItem, Button } from "@heroui/react";
+import { Calendar, Card, DatePicker, DateValue, Input, Select, SelectItem, Button, Checkbox } from "@heroui/react";
 import React, { useEffect, useState } from "react";
 import { CalendarDate } from "@internationalized/date";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -19,6 +19,7 @@ const UserFormPage = () => {
   const [budget, setBudget] = useState("");
   const [purpose, setPurpose] = useState("");
   const [loading, setLoading] = useState(false);
+  const [usePreviousInfo, setUsePreviousInfo] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -136,7 +137,13 @@ const UserFormPage = () => {
               </SelectItem>
             ))}
           </Select>
-          
+          <Checkbox 
+            color="danger"
+            checked={usePreviousInfo}
+            onChange={(e) => setUsePreviousInfo(e.target.checked)}
+          >
+            Use previous travel info
+          </Checkbox>
           <Button 
             type="submit" 
             color="primary" 

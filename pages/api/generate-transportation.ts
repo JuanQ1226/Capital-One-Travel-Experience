@@ -17,15 +17,15 @@ export default async function handler(
     // This is a mock response for demonstration purposes
 
     const Agent = new LLM();
-    let parsedCountry;
+    let parsedTrans;
 
     for (let i = 0; i < 3; i++) {
-      const Country = await Agent.getTransportation(budget, purpose, startDate, endDate, destination, hotelName);
-      if (Country) {
+      const Transportation = await Agent.getTransportation(budget, purpose, startDate, endDate, destination, hotelName);
+      if (Transportation) {
         try {
-          const jsonMatch = Country.match(/{[\s\S]*}/);
+          const jsonMatch = Transportation.match(/{[\s\S]*}/);
           if (jsonMatch){
-            parsedCountry = JSON.parse(jsonMatch[0]);
+            parsedTrans = JSON.parse(jsonMatch[0]);
             break
           }
           continue
@@ -38,12 +38,12 @@ export default async function handler(
     }
     
 
-    if (!parsedCountry) {
+    if (!parsedTrans) {
       return res.status(500).json({ error: 'Failed to generate itinerary' });
     }
 
     
-    return res.status(200).json(parsedCountry);
+    return res.status(200).json(parsedTrans);
   } catch (error) {
     console.error('Error generating itinerary:', error);
     return res.status(500).json({ error: 'Failed to generate itinerary' });

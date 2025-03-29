@@ -121,7 +121,7 @@ Return accommodations that best represent the destination's culture, match the t
       const response = await this.client.responses.create({
         model: "gpt-4o",
         tools: [{ type: "web_search_preview" }],
-        input: "What was a positive news story from today?",
+        input: ``,
       });
       return response.output_text;
     } catch (error) {

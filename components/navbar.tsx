@@ -16,9 +16,6 @@ export const Navbar = () => {
         <NavbarBrand as={Link} href={"/"} className="gap-3 max-w-fit">
           <Image src={navLogo} alt="Logo" width={80} height={80} />
         </NavbarBrand>
-        <NavbarItem className="ml-auto">
-          <ThemeSwitch/>
-        </NavbarItem>
       </NavbarContent>
     </HeroUINavbar>
   );

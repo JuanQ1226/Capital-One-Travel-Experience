@@ -28,26 +28,26 @@ export class LLM {
     }
   }
 
-  async getAccomodations(budget: any, purpose: any, startDate: any, endDate: any, contry: any): Promise<string | null> {
+  async getAccomodations(budget: any, purpose: any, startDate: any, endDate: any, destination: any): Promise<string | null> {
     try {
       const response = await this.client.responses.create({
         model: "gpt-4o",
         tools: [{ type: "web_search_preview_2025_03_11" }],
-        input: `You are a travel API that exclusively returns structured JSON data. Generate accommodation options for travelers visiting {destination} based on their specific trip details.
+        input: `You are a travel API that exclusively returns structured JSON data. Generate accommodation options for travelers visiting ${destination} based on their specific trip details.
 
 Trip Details:
-- Destination: {destination}
-- Start Date: {startDate}
-- End Date: {endDate} 
+- Destination: ${destination}
+- Start Date: ${startDate}
+- End Date: ${endDate} 
 - Total Budget: ${budget}
-- Trip Purpose: {purpose}
+- Trip Purpose: ${purpose}
 
 Create a detailed JSON response with the following structure:
 {
-  "destination": "{destination}",
+  "destination": "${destination}",
   "totalNights": {totalNights},
-  "checkIn": "{startDate}",
-  "checkOut": "{endDate}",
+  "checkIn": "${startDate}",
+  "checkOut": "${endDate}",
   "recommendedOption": 1,
   "options": [
     {
@@ -72,9 +72,9 @@ Create a detailed JSON response with the following structure:
 
 Important requirements:
 1. Include 3-4 accommodation options at different price points (ensure they fit within the total budget of ${budget})
-2. Recommend accommodations that specifically match the trip purpose: {purpose}
-3. Ensure all options are real, well-known hotels or accommodations in {destination}
-4. Calculate totalPrice based on the actual number of nights between {startDate} and {endDate}
+2. Recommend accommodations that specifically match the trip purpose: ${purpose}
+3. Ensure all options are real, well-known hotels or accommodations in ${destination}
+4. Calculate totalPrice based on the actual number of nights between ${startDate} and ${endDate}
 5. Provide actual neighborhood names for locations
 6. At least one option should have a Capital One promotion with savings
 7. For business trips: prioritize locations near business districts with work amenities
@@ -85,7 +85,7 @@ Important requirements:
 12. Ensure all JSON is valid and properly formatted
 13. Only return the JSON object with no additional text or explanation
 
-Return accommodations that best represent the destination's culture, match the trip purpose of {purpose}, and provide good value within the specified budget of ${budget}.`,
+Return accommodations that best represent the destination's culture, match the trip purpose of ${purpose}, and provide good value within the specified budget of ${budget}.`,
       });
       return response.output_text;
     } catch (error) {

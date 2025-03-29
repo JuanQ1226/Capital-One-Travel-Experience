@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Button, Card, Spinner, Progress, Badge, Chip } from "@heroui/react";
 import Link from "next/link";
@@ -57,7 +57,7 @@ interface TransportationPageProps {
 export const getServerSideProps: GetServerSideProps<TransportationPageProps> = async (context) => {
   try {
     const { data } = context.query;
-    
+    console.log("Data from query params:", data);
     // If data exists in the query params, parse it
     if (data && typeof data === "string") {
       const parsedData = JSON.parse(data);
@@ -273,7 +273,7 @@ const TransportationPage = ({ transportationData, error }: TransportationPagePro
 
         <Card radius="md" shadow="md" className="bg-white mb-6 p-6">
           <div className="mb-6">
-            <h1 className="text-3xl font-bold mb-2">How You'll Travel to {transportationData.destination}</h1>
+            <h1 className="text-3xl font-bold mb-2">How You'll Travel to {transportationData.destination as string}</h1>
             <p className="text-gray-600">
               Arrival: {new Date(transportationData.arrivalDate).toLocaleDateString()} • Departure: {new Date(transportationData.departureDate).toLocaleDateString()}
             </p>

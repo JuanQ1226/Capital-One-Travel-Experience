@@ -154,7 +154,7 @@ Create a detailed JSON response with the following structure:
       "savings": 150,
       "highlights": ["Direct flight", "Quality service", "On-time performance"],
       "transfers": 0,
-      "transferDetails": []
+      "transferDetails": ["Frankfurt Airport (FRA) - 2h layover"],
     }
   ]
 }
@@ -193,6 +193,7 @@ Return only valid JSON with no additional text, markdown formatting, or explanat
         model: "gpt-4o",
         tools: [{ type: "web_search_preview_2025_03_11" }],
         tool_choice: "required",
+        max_output_tokens: 5000,
         input: `You are a travel API that exclusively returns structured JSON data without explanation text. Generate a detailed activities itinerary for a trip based on the following parameters:
 
 TRIP DETAILS:

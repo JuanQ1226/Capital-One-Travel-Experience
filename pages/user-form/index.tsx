@@ -51,7 +51,7 @@ const UserFormPage = () => {
       };
       
       // Make API request
-      const response = await fetch('/api/generate-itinerary', {
+      const response = await fetch('/api/generate-country', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -64,6 +64,7 @@ const UserFormPage = () => {
       }
       
       const itineraryData = await response.json();
+      console.log(itineraryData);
       
       // Navigate to results page with the data
       router.push({

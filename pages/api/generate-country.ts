@@ -26,9 +26,8 @@ export default async function handler(
 
     const Agent = new LLM();
 
-    const Country = Agent.getCountry(budget);
+    const Country = await Agent.getCountry(budget);
 
-    await new Promise(resolve => setTimeout(resolve, 1500));
     
     return res.status(200).json(Country);
   } catch (error) {

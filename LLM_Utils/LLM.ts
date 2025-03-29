@@ -121,7 +121,63 @@ Return accommodations that best represent the destination's culture, match the t
       const response = await this.client.responses.create({
         model: "gpt-4o",
         tools: [{ type: "web_search_preview" }],
-        input: ``,
+        input: `You are a travel API that exclusively returns structured JSON data. Generate transportation options for travelers going to {destination} based on their specific trip details.
+
+Trip Details:
+- Destination: ${contry}
+- Start Date: ${startDate}
+- End Date: ${endDate}
+- Total Budget: ${budget}
+- Trip Purpose: ${purpose}
+- Accommodation: ${hotelName}
+
+Create a detailed JSON response with the following structure:
+{
+  "destination": "${contry}",
+  "arrivalDate": "${startDate}",
+  "departureDate": "${endDate}",
+  "recommendedOption": 1,
+  "options": [
+    {
+      "id": 1,
+      "type": "flight",
+      "name": "Direct Flight",
+      "description": "Detailed description of the transportation option",
+      "price": 1200,
+      "duration": "14h 30m",
+      "departureTime": "10:30 AM",
+      "arrivalTime": "2:00 PM (+1)",
+      "imageUrl": "https://images.unsplash.com/photo-example",
+      "provider": "Airline or Company Name",
+      "amenities": ["In-flight meals", "Wi-Fi", "Entertainment"],
+      "promoAvailable": true,
+      "savings": 150,
+      "highlights": ["Direct flight", "Quality service", "On-time performance"],
+      "transfers": 0,
+      "transferDetails": []
+    }
+  ]
+}
+
+Important requirements:
+1. Include 3-4 transportation options with different trade-offs (direct vs. connecting flights, different carriers, combination options like train+flight)
+2. Ensure at least one option includes a Capital One promotional discount (promoAvailable: true)
+3. Make transportation options realistic for the destination (for example, bullet trains for Japan, ferries for Greek islands)
+4. For price, consider the trip purpose and budget - business travelers might have higher budgets than leisure travelers
+5. Include actual realistic providers (airlines, train companies, etc.) that serve the destination
+6. Duration and transfer information should be realistic considering the destination
+7. Only use image URLs from unsplash.com, ensuring they are real, working URLs
+8. For each option, consider different departure/arrival times that serve different traveler preferences
+9. Ensure the "recommendedOption" is set to the option ID that best balances price, convenience, and quality
+10. Include at least one option with transfers > 0 and appropriate transferDetails
+11. For imageUrls, use ONLY these verified Unsplash URLs:
+    - https://images.unsplash.com/photo-1569154941061-e231b4725ef1
+    - https://images.unsplash.com/photo-1436491865332-7a61a109cc05
+    - https://images.unsplash.com/photo-1552917084-03e840186a77
+    - https://images.unsplash.com/photo-1606768666853-403c90a981ad
+    - https://images.unsplash.com/photo-1544620347-c4fd4a3d5957
+
+Return only valid JSON with no additional text, markdown formatting, or explanations. Ensure all values match the types specified in the schema.`,
       });
       return response.output_text;
     } catch (error) {

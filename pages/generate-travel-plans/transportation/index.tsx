@@ -13,7 +13,13 @@ import {
   faShuttleVan, 
   faWalking,
   faMoneyBillWave,
-  faClock
+  faClock,
+  faTicketAlt,
+  faUtensils,
+  faWifi,
+  faLuggageCart,
+  faTv,
+  faChargingStation
 } from "@fortawesome/free-solid-svg-icons";
 
 type TransportationData = {
@@ -33,7 +39,7 @@ type TransportationOption = {
   duration: string;
   departureTime: string;
   arrivalTime: string;
-  imageUrl: string;
+  imageUrl: string; // We'll keep this in the type but won't use it
   provider: string;
   amenities: string[];
   promoAvailable?: boolean;
@@ -78,7 +84,7 @@ export const getServerSideProps: GetServerSideProps<TransportationPageProps> = a
           duration: "14h 30m",
           departureTime: "10:30 AM",
           arrivalTime: "2:00 PM (+1)",
-          imageUrl: "https://images.unsplash.com/photo-1569154941061-e231b4725ef1?ixlib=rb-4.0.3",
+          imageUrl: "", // Not used
           provider: "Japan Airlines",
           amenities: ["In-flight meals", "Wi-Fi", "Entertainment", "USB charging", "Extra legroom"],
           promoAvailable: true,
@@ -95,7 +101,7 @@ export const getServerSideProps: GetServerSideProps<TransportationPageProps> = a
           duration: "17h 45m",
           departureTime: "9:15 PM",
           arrivalTime: "8:00 PM (+1)",
-          imageUrl: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-4.0.3",
+          imageUrl: "", // Not used
           provider: "Korean Air",
           amenities: ["In-flight meals", "Entertainment", "USB charging"],
           transfers: 1,
@@ -110,7 +116,7 @@ export const getServerSideProps: GetServerSideProps<TransportationPageProps> = a
           duration: "18h total",
           departureTime: "1:20 PM",
           arrivalTime: "10:30 AM (+1)",
-          imageUrl: "https://images.unsplash.com/photo-1552917084-03e840186a77?ixlib=rb-4.0.3",
+          imageUrl: "", // Not used
           provider: "ANA + Japan Railways",
           amenities: ["In-flight meals", "Spacious train seating", "Scenic views", "Luggage transfer service"],
           promoAvailable: true,
@@ -209,6 +215,16 @@ const TransportationPage = ({ transportationData, error }: TransportationPagePro
       default: return faPlane;
     }
   };
+  
+  const getAmenityIcon = (amenity: string) => {
+    if (amenity.toLowerCase().includes("meal")) return faUtensils;
+    if (amenity.toLowerCase().includes("wifi")) return faWifi;
+    if (amenity.toLowerCase().includes("entertainment")) return faTv;
+    if (amenity.toLowerCase().includes("usb") || amenity.toLowerCase().includes("charging")) return faChargingStation;
+    if (amenity.toLowerCase().includes("luggage")) return faLuggageCart;
+    if (amenity.toLowerCase().includes("ticket") || amenity.toLowerCase().includes("extra")) return faTicketAlt;
+    return faStar; // Default icon
+  };
 
   if (error || !transportationData) {
     return (
@@ -265,40 +281,31 @@ const TransportationPage = ({ transportationData, error }: TransportationPagePro
                 className={`overflow-hidden border-2 ${selectedOption === option.id ? 'border-red-500' : 'border-transparent'}`}
               >
                 <div className="flex flex-col md:flex-row">
-                  {/* Image/Icon */}
-                  <div className="md:w-1/3 h-48 md:h-full relative bg-gray-100 flex flex-col items-center justify-center p-4">
-                    <div className="w-full flex items-center justify-center mb-4">
-                      <FontAwesomeIcon 
-                        icon={getTransportIcon(option.type)} 
-                        className="text-4xl text-gray-700" 
-                      />
-                    </div>
-                    <img
-                      src={option.imageUrl}
-                      alt={option.name}
-                      className="w-full h-32 object-cover rounded-md"
+                  {/* Transport Icon Section */}
+                  <div className="md:w-1/4 h-auto relative bg-gray-50 flex flex-col items-center justify-center p-8">
+                    <FontAwesomeIcon 
+                      icon={getTransportIcon(option.type)} 
+                      className="text-6xl text-gray-700 mb-6" 
                     />
+                    <div className="text-center mt-4">
+                      <p className="font-medium text-lg">{option.provider}</p>
+                      <div className="mt-2 bg-blue-50 px-3 py-1 rounded-full inline-block">
+                        <span className="text-xs font-semibold text-blue-600 uppercase">{option.type}</span>
+                      </div>
+                    </div>
+                    
                     {option.promoAvailable && (
-                      <Chip
-                        color="danger"
-                        className="absolute top-2 left-2 text-xs font-semibold bg-red-500 text-white"
-                      >
-                        Capital One Offer
-                      </Chip>
+                      <div className="absolute top-2 right-2 rounded-full bg-red-500 text-white p-2">
+                        <FontAwesomeIcon icon={faMoneyBillWave} className="text-lg" />
+                      </div>
                     )}
                   </div>
                   
                   {/* Content */}
-                  <div className="p-4 md:w-2/3 flex flex-col">
+                  <div className="p-4 md:w-3/4 flex flex-col">
                     <div className="flex justify-between items-start">
                       <div>
-                        <div className="flex items-center">
-                          <h2 className="text-xl font-bold">{option.name}</h2>
-                          <Badge className="ml-2 bg-blue-100 text-blue-800 px-2 py-1 text-xs uppercase">
-                            {option.type}
-                          </Badge>
-                        </div>
-                        <p className="text-sm text-gray-600">Provider: {option.provider}</p>
+                        <h2 className="text-xl font-bold">{option.name}</h2>
                       </div>
                       <div className="text-right">
                         <p className="text-sm text-gray-600">Price</p>
@@ -309,7 +316,7 @@ const TransportationPage = ({ transportationData, error }: TransportationPagePro
                       </div>
                     </div>
                     
-                    <div className="flex flex-wrap justify-between mt-3">
+                    <div className="flex flex-wrap justify-between mt-4 bg-gray-50 p-3 rounded-md">
                       <div className="flex items-center mr-4">
                         <FontAwesomeIcon icon={faClock} className="mr-2 text-gray-500" />
                         <span className="text-sm font-medium">Duration: {option.duration}</span>
@@ -321,16 +328,18 @@ const TransportationPage = ({ transportationData, error }: TransportationPagePro
                       </div>
                     </div>
                     
-                    <p className="mt-3 text-gray-700 text-sm">{option.description}</p>
+                    <p className="mt-4 text-gray-700 text-sm">{option.description}</p>
                     
                     {option.transfers > 0 && (
-                      <div className="mt-2">
-                        <p className="text-sm">
-                          <span className="font-medium">Transfers: </span>
-                          {option.transfers}
-                        </p>
+                      <div className="mt-3 p-3 bg-yellow-50 rounded-md">
+                        <div className="flex items-center">
+                          <FontAwesomeIcon icon={faTrain} className="text-yellow-600 mr-2" />
+                          <p className="text-sm font-medium">
+                            Transfers: {option.transfers}
+                          </p>
+                        </div>
                         {option.transferDetails && (
-                          <ul className="text-xs text-gray-600 ml-4 mt-1 list-disc">
+                          <ul className="text-xs text-gray-600 ml-7 mt-2 list-disc">
                             {option.transferDetails.map((detail, idx) => (
                               <li key={idx}>{detail}</li>
                             ))}
@@ -344,6 +353,7 @@ const TransportationPage = ({ transportationData, error }: TransportationPagePro
                       <div className="flex flex-wrap gap-2 mt-1">
                         {option.amenities.slice(0, 5).map((amenity, index) => (
                           <span key={index} className="inline-flex items-center text-xs bg-gray-100 px-2 py-1 rounded">
+                            <FontAwesomeIcon icon={getAmenityIcon(amenity)} className="mr-1 text-gray-600" />
                             {amenity}
                           </span>
                         ))}

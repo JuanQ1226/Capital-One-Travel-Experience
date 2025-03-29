@@ -17,7 +17,7 @@ export default async function handler(
     const Agent = new LLM();
     let ParsedAcomodations;
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 5; i++) {
       const result = await Agent.getAccomodations(budget, purpose, startDate, endDate,country);
       if (result) {
         try {

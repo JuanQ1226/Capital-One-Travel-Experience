@@ -17,15 +17,15 @@ export default async function handler(
     // This is a mock response for demonstration purposes
 
     const Agent = new LLM();
-    let parsedItenary;
+    let parsedActivity;
 
     for (let i = 0; i < 10; i++) {
-      const Ite = await Agent.getItenary(destination, arrivalTime,startDate, endDate, budget, accomodationName, accomodationLocation);
-      if (Ite) {
+      const Active = await Agent.getActivities(destination, arrivalTime,startDate, endDate, budget, accomodationName, accomodationLocation);
+      if (Active) {
         try {
-          const jsonMatch = Ite.match(/{[\s\S]*}/);
+          const jsonMatch = Active.match(/{[\s\S]*}/);
           if (jsonMatch){
-            parsedItenary = JSON.parse(jsonMatch[0]);
+            parsedActivity = JSON.parse(jsonMatch[0]);
             break
           }
           continue
@@ -38,12 +38,12 @@ export default async function handler(
     }
     
 
-    if (!parsedItenary) {
+    if (!parsedActivity) {
       return res.status(500).json({ error: 'Failed to generate itinerary' });
     }
 
     
-    return res.status(200).json(parsedItenary);
+    return res.status(200).json(parsedActivity);
   } catch (error) {
     console.error('Error generating itinerary:', error);
     return res.status(500).json({ error: 'Failed to generate itinerary' });

@@ -11,21 +11,21 @@ export default async function handler(
   }
 
   try {
-    const { startDate, endDate, budget, purpose, destination, hotelName} = req.body;
+    const { destination, arrivaltime,startDate, endDate, budget, accomodationName, accomodationLocation } = req.body;
     
     // Here you would typically make a call to an LLM API like OpenAI
     // This is a mock response for demonstration purposes
 
     const Agent = new LLM();
-    let parsedTrans;
+    let parsedItenary;
 
     for (let i = 0; i < 5; i++) {
-      const Transportation = await Agent.getTransportation(budget, purpose, startDate, endDate, destination, hotelName);
-      if (Transportation) {
+      const Ite = await Agent.getItenary(destination, arrivaltime,startDate, endDate, budget, accomodationName, accomodationLocation);
+      if (Ite) {
         try {
-          const jsonMatch = Transportation.match(/{[\s\S]*}/);
+          const jsonMatch = Ite.match(/{[\s\S]*}/);
           if (jsonMatch){
-            parsedTrans = JSON.parse(jsonMatch[0]);
+            parsedItenary = JSON.parse(jsonMatch[0]);
             break
           }
           continue
@@ -38,12 +38,12 @@ export default async function handler(
     }
     
 
-    if (!parsedTrans) {
+    if (!parsedItenary) {
       return res.status(500).json({ error: 'Failed to generate itinerary' });
     }
 
     
-    return res.status(200).json(parsedTrans);
+    return res.status(200).json(parsedItenary);
   } catch (error) {
     console.error('Error generating itinerary:', error);
     return res.status(500).json({ error: 'Failed to generate itinerary' });

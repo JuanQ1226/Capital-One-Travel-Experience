@@ -19,7 +19,7 @@ export default async function handler(
     const Agent = new LLM();
     let parsedCountry;
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 5; i++) {
       const Country = await Agent.getCountry(budget, purpose, startDate, endDate);
       if (Country) {
         try {

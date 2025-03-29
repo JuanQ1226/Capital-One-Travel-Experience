@@ -186,7 +186,7 @@ Return only valid JSON with no additional text, markdown formatting, or explanat
     }
   }
 
-  async getItenary(destination: any, arrivalTime: any, startDate: any, endDate: any, budget: any, accomodationName: any, accomodationLocation: any
+  async getActivities(destination: any, arrivalTime: any, startDate: any, endDate: any, budget: any, accomodationName: any, accomodationLocation: any
   ): Promise<string | null> {
     try {
       const response = await this.client.responses.create({
@@ -264,4 +264,21 @@ Return only valid JSON with no additional text, markdown formatting, or explanat
       return null;
     }
   }
+
+  async getItenary(destination: any, arrivalTime: any, startDate: any, endDate: any, budget: any, accomodationName: any, accomodationLocation: any
+  ): Promise<string | null> {
+    try {
+      const response = await this.client.responses.create({
+        model: "gpt-4o",
+        tools: [{ type: "web_search_preview_2025_03_11" }],
+        tool_choice: "required",
+        input: ``,
+      });
+      return response.output_text;
+    } catch (error) {
+      console.error("Error fetching positive news:", error);
+      return null;
+    }
+  }
+
 }

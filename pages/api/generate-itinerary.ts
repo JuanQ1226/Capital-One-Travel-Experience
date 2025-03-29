@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import {LLM} from './LLM'
 
 type ItineraryData = {
   destination: string;
@@ -49,6 +50,8 @@ export default async function handler(
         "Consider travel insurance"
       ]
     };
+    const Agent = new LLM();
+
 
     // In a real implementation, you'd call your LLM API here
     // const response = await fetch('your-llm-api-endpoint', {

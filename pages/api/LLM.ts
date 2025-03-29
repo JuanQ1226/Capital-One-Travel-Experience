@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-class LLM {
+export class LLM {
   private client: OpenAI;
 
   constructor() {
@@ -14,12 +14,12 @@ class LLM {
     this.client = new OpenAI({ apiKey: apiKeyText });
   }
 
-  async getCountry(): Promise<string | null> {
+  async getCountry(budget: any): Promise<string | null> {
     try {
       const response = await this.client.responses.create({
         model: "gpt-4o",
         tools: [{ type: "web_search_preview" }],
-        input: "What was a positive news story from today?",
+        input: `Based on the following information give me a country you would travel to: Budget:${budget}`,
       });
       return response.output_text;
     } catch (error) {
@@ -58,4 +58,3 @@ class LLM {
 
 
 }
-module.exports(LLM)

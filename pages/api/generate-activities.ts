@@ -11,7 +11,7 @@ export default async function handler(
   }
 
   try {
-    const { destination, arrivaltime,startDate, endDate, budget, accomodationName, accomodationLocation } = req.body;
+    const { destination, arrivalTime,startDate, endDate, budget, accomodationName, accomodationLocation } = req.body;
     
     // Here you would typically make a call to an LLM API like OpenAI
     // This is a mock response for demonstration purposes
@@ -20,7 +20,7 @@ export default async function handler(
     let parsedItenary;
 
     for (let i = 0; i < 3; i++) {
-      const Ite = await Agent.getItenary(destination, arrivaltime,startDate, endDate, budget, accomodationName, accomodationLocation);
+      const Ite = await Agent.getItenary(destination, arrivalTime,startDate, endDate, budget, accomodationName, accomodationLocation);
       if (Ite) {
         try {
           const jsonMatch = Ite.match(/{[\s\S]*}/);

@@ -186,14 +186,77 @@ Return only valid JSON with no additional text, markdown formatting, or explanat
     }
   }
 
-  async getItenary(destination: any, arrivaltime: any, startDate: any, endDate: any, budget: any, accomodationName: any, accomodationLocation: any
+  async getItenary(destination: any, arrivalTime: any, startDate: any, endDate: any, budget: any, accomodationName: any, accomodationLocation: any
   ): Promise<string | null> {
     try {
       const response = await this.client.responses.create({
         model: "gpt-4o",
         tools: [{ type: "web_search_preview_2025_03_11" }],
         tool_choice: "required",
-        input: ``,
+        input: `You are a travel API that exclusively returns structured JSON data without explanation text. Generate a detailed activities itinerary for a trip based on the following parameters:
+
+TRIP DETAILS:
+- Destination: ${destination}
+- Accommodation: ${accomodationName} in ${accomodationLocation}
+- Arrival Time: ${arrivalTime}
+- Start Date: ${startDate}
+- End Date: ${endDate}
+- Budget: ${budget}
+
+Create a detailed JSON response with the following structure:
+{
+  "destination": "${destination}",
+  "startDate": "${startDate}",
+  "endDate": "${endDate}",
+  "totalActivities": number,
+  "totalCost": number,
+  "overview": "Personalized overview of the trip itinerary highlighting key experiences",
+  "days": [
+    {
+      "date": "YYYY-MM-DD",
+      "dayNumber": 1,
+      "activities": [
+        {
+          "id": 1,
+          "name": "Activity Name",
+          "type": "activity type (dining, sightseeing, cultural, travel, outdoor, etc.)",
+          "description": "Detailed description of the activity",
+          "location": "Specific location within the destination",
+          "startTime": "HH:MM",
+          "endTime": "HH:MM",
+          "cost": number,
+          "currency": "USD",
+          "bookingRequired": true/false,
+          "bookingUrl": "booking URL if applicable",
+          "highlights": ["highlight 1", "highlight 2", "highlight 3"],
+          "promoAvailable": true/false,
+          "savings": number
+        }
+      ]
+    }
+  ]
+}
+
+IMPORTANT REQUIREMENTS:
+
+1. Create a logical daily sequence of 2-4 activities per day considering the arrival time on the first day and departure on the last day
+2. Only include activities that match the destination's culture, attractions, and local experiences
+3. Account for travel time between activities and realistic opening hours
+4. Vary activity types across the itinerary (mix of dining, cultural, sightseeing, etc.)
+5. Ensure first day's activities start after the arrival time: {arrivalTime}
+6. Total cost of all activities should be appropriate for the budget: ${budget}
+7. Include at least one free activity per day and balance paid activities
+8. Create a mix of popular tourist destinations and off-the-beaten-path experiences
+9. Include at least 2 activities that have Capital One promotions (promoAvailable: true)
+10. Make sure booking URLs are not included unless bookingRequired is true
+11. Each day's activities should flow logically based on geography to minimize unnecessary travel
+12. For dining activities, include actual restaurant names and cuisine types specific to the destination
+13. For cultural activities, include authentic local cultural experiences relevant to the destination
+14. Activity descriptions should be detailed and informative (25-40 words each)
+15. Activity types must be one of: "sightseeing", "cultural", "dining", "outdoor", "beach", "shopping", "entertainment", "music", "art", "nature", or "travel"
+16. Calculate total activities count and total cost accurately based on the generated data
+
+Return only valid JSON with no additional text, markdown formatting, or explanations. The response must be a single, well-formed JSON object matching the structure above.`,
       });
       return response.output_text;
     } catch (error) {

@@ -1,29 +1,14 @@
 import OpenAI from "openai";
 import dotenv from "dotenv";
-import { NextApiRequest, NextApiResponse } from 'next';
 
 dotenv.config();
-
-// export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-//   if (req.method === 'POST') {
-//     const { countries, activities } = req.body;
-
-//     console.log('Received data in LLM:', { countries, activities });
-
-//     res.status(200).json({
-//       message: 'Data received and processed by LLM',
-//       countries,
-//       activities,
-//     });
-//   } else {
-//     res.status(405).json({ message: 'Method Not Allowed' });
-//   }
-// }
-
 export class LLM {
   private client: OpenAI;
 
-  constructor() {
+  constructor();
+  constructor(Countries: string, Activities: string);
+  constructor(Countries?: string, Activities?: string) 
+  {
     const apiKeyText = process.env.OPENAI_API_KEY;
     if (!apiKeyText) {
       throw new Error(
@@ -33,58 +18,8 @@ export class LLM {
     this.client = new OpenAI({ apiKey: apiKeyText });
   }
 
-
-
-  // async fetchAndProcessData() {
-  //   try {
-  //     const response = await fetch('/api/db-handler'); // Fetch from the API route (adjust if needed)
-  //     const result = await response.json();
-  //     console.log('Data received:', result); // Log the data received
-
-  //     // Format the data
-  //     const formattedData = result.reduce((acc: any, row: any) => {
-  //       // Check if the country already exists
-  //       if (!acc[row.country]) {
-  //         acc[row.country] = {
-  //           countries: new Set(),
-  //           activities: new Set()
-  //         };
-  //       }
-
-  //       // We need to ensure unique entries of countries and ratings before adding to the set
-  //       acc[row.country].countries.add(`${row.country} Rating ${row.rating}/5`);
-
-  //       // Same here but add activities and ratings
-  //       acc[row.country].activities.add(`${row.activity} Rating ${row.rating}/5`);
-
-  //       return acc;
-  //     }, {});
-
-  //     // Separate results
-  //     const countriesString = Object.entries(formattedData)
-  //       .map(([country, { countries }]: [string, { countries: Set<string> }]) => {
-  //         return `${[...countries].join(', ')}`;
-  //       })
-  //       .join('\n');
-
-  //     const activitiesString = Object.entries(formattedData)
-  //       .map(([country, { activities }]: [string, { activities: Set<string> }]) => {
-  //         return `${[...activities].join(', ')}`;
-  //       })
-  //       .join('\n');
-
-  //     // Debugging log
-  //     console.log('Most enjoyed countries ' + countriesString);
-  //     console.log('Most enjoyed activities ' + activitiesString);
-
-  //     // Return both formatted strings for further use
-  //     return { countriesString, activitiesString };
-
-  //   } catch (error) {
-  //     console.error('Error fetching and processing data:', error);
-  //     return null;
-  //   }
-  // }  
+    
+  
 
   async getCountry(
     budget: any,

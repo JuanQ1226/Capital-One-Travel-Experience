@@ -24,19 +24,22 @@ export default async function handler(
       const Country = await Agent.getCountry(budget, purpose, startDate, endDate);
       if (Country) {
         try {
-          parsedCountry = JSON.parse(Country);
+          const jsonMatch = Country.match(/{[\s\S]*}/);
+          if (jsonMatch){
+            parsedCountry = JSON.parse(jsonMatch[0]);
+            break
+          }
+          continue
         } 
         catch (error) {
           console.error('Error parsing JSON:', error);
           continue;
         }
-        hasNotFound = false;
-        break;
       }
     }
     
 
-    if (!parsedCountry || hasNotFound) {
+    if (!parsedCountry) {
       return res.status(500).json({ error: 'Failed to generate itinerary' });
     }
 

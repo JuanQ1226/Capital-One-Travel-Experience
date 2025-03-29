@@ -16,7 +16,6 @@ export default async function handler(
     
     const Agent = new LLM();
     let ParsedAcomodations;
-    let hasNotFound = true;
 
     for (let i = 0; i < 3; i++) {
       const result = await Agent.getAccomodations(budget, purpose, startDate, endDate,country);
@@ -34,12 +33,11 @@ export default async function handler(
           console.error('Error parsing JSON:', error);
           continue;
         }
-        hasNotFound = false;
-        break;
+
       }
     }
 
-    if (!ParsedAcomodations || hasNotFound) {
+    if (!ParsedAcomodations) {
       return res.status(500).json({ error: 'Failed to generate itinerary' });
     }
     

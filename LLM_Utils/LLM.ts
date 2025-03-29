@@ -47,7 +47,7 @@ export class LLM {
       const response = await this.client.responses.create({
         model: "gpt-4o",
         tools: [{ type: "web_search_preview_2025_03_11" }],
-        tool_choice: "auto",
+        tool_choice: "required",
         input: `You are a travel API that exclusively returns structured JSON data without any json tags or tildes used for formatting, just the plain JSON structure. Generate accommodation options for travelers visiting ${destination} based on their specific trip details.
 
 Trip Details:

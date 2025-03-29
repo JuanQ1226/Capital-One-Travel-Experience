@@ -135,6 +135,12 @@ const AccommodationsPage = ({ accommodationData, error }: AccommodationsPageProp
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
+  // Handle back to destination page
+  const handleBack = () => {
+    router.back();
+  };
+
+
   // Handle continue to the next page (activities)
   const handleContinue = async () => {
     if (!selectedOption) return;
@@ -338,7 +344,7 @@ const AccommodationsPage = ({ accommodationData, error }: AccommodationsPageProp
           {/* Navigation buttons */}
           <div className="flex justify-between items-center mt-8">
             <Button
-              as={Link}
+              onPress={handleBack}
               href="/generate-travel-plans/destination"
               variant="bordered"
               className="border-red-500 text-red-500"

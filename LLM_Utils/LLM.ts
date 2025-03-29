@@ -5,9 +5,8 @@ dotenv.config();
 export class LLM {
   private client: OpenAI;
 
-  constructor();
-  constructor(Countries: string, Activities: string);
-  constructor(Countries?: string, Activities?: string) 
+  
+  constructor()
   {
     const apiKeyText = process.env.OPENAI_API_KEY;
     if (!apiKeyText) {

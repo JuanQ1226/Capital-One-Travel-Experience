@@ -37,6 +37,22 @@ export default async function handler(
       }
     }
 
+    // Search and add photo for each accomodation
+    await Promise.all(ParsedAcomodations.options.map(async (option: any) => {
+      const query = `${option.name} ${country}`;
+      const accomodationSearch = await fetch(`https://maps.googleapis.com/maps/api/place/textsearch/json?input=${query}&key=${process.env.GOOGLE_MAPS_API_KEY}`);
+      const accomodationSearchData = await accomodationSearch.json();
+      const accomodationDetails = accomodationSearchData.results[0];
+      const photoReference = accomodationDetails?.photos?.[0]?.photo_reference;
+
+      if (photoReference) {
+        const url = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photo_reference=${photoReference}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
+        option.imageUrl = url;
+      }
+      return option;
+    }));
+
+   
     if (!ParsedAcomodations) {
       return res.status(500).json({ error: 'Failed to generate itinerary' });
     }

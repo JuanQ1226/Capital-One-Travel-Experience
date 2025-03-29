@@ -250,16 +250,16 @@ const AccommodationsPage = ({ accommodationData, error }: AccommodationsPageProp
               >
                 <div className="flex flex-col md:flex-row">
                   {/* Image */}
-                  <div className="md:w-2/5 h-48 md:h-full relative">
+                  <div className="md:w-2/5 h-48 md:h-auto relative">
                     <img
                       src={option.imageUrl}
                       alt={option.name}
-                      className="w-full h-full object-cover aspect-square"
+                      className="w-full h-full object-cover absolute inset-0"
                     />
                     {option.promoAvailable && (
                       <Chip
                         color="danger"
-                        className="absolute top-2 left-2 text-xs font-semibold bg-red-500 text-white"
+                        className="absolute top-2 left-2 text-xs font-semibold bg-red-500 text-white z-10"
                       >
                         Capital One Offer Available
                       </Chip>

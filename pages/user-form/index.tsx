@@ -87,7 +87,9 @@ const UserFormPage = () => {
       }
 
       const CountryData = await response.json();
-      console.log(CountryData);
+      
+      // Save country data to local storage
+      localStorage.setItem("countryData", JSON.stringify(CountryData));
 
       // Navigate to results page with the data
       router.push({

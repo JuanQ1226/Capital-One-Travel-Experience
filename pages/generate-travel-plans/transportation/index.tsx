@@ -39,7 +39,6 @@ type TransportationOption = {
   duration: string;
   departureTime: string;
   arrivalTime: string;
-  imageUrl: string; // We'll keep this in the type but won't use it
   provider: string;
   amenities: string[];
   promoAvailable?: boolean;
@@ -84,7 +83,6 @@ export const getServerSideProps: GetServerSideProps<TransportationPageProps> = a
           duration: "14h 30m",
           departureTime: "10:30 AM",
           arrivalTime: "2:00 PM (+1)",
-          imageUrl: "", // Not used
           provider: "Japan Airlines",
           amenities: ["In-flight meals", "Wi-Fi", "Entertainment", "USB charging", "Extra legroom"],
           promoAvailable: true,
@@ -101,7 +99,6 @@ export const getServerSideProps: GetServerSideProps<TransportationPageProps> = a
           duration: "17h 45m",
           departureTime: "9:15 PM",
           arrivalTime: "8:00 PM (+1)",
-          imageUrl: "", // Not used
           provider: "Korean Air",
           amenities: ["In-flight meals", "Entertainment", "USB charging"],
           transfers: 1,
@@ -116,7 +113,6 @@ export const getServerSideProps: GetServerSideProps<TransportationPageProps> = a
           duration: "18h total",
           departureTime: "1:20 PM",
           arrivalTime: "10:30 AM (+1)",
-          imageUrl: "", // Not used
           provider: "ANA + Japan Railways",
           amenities: ["In-flight meals", "Spacious train seating", "Scenic views", "Luggage transfer service"],
           promoAvailable: true,

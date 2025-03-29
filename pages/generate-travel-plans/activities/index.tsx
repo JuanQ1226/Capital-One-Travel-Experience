@@ -284,39 +284,7 @@ const ActivitiesPage = ({ activitiesData, error }: ActivitiesPageProps) => {
       localStorage.setItem("selectedActivities", JSON.stringify(selectedActivities));
       
       // Get other trip data from local storage
-      const destination = activitiesData?.destination;
-      const startDate = activitiesData?.startDate;
-      const endDate = activitiesData?.endDate;
-      const accommodation = localStorage.getItem("selectedAccommodation");
-      const transportation = localStorage.getItem("selectedTransportation");
-      
-      // Make API request to generate final itinerary
-      const itineraryResponse = await fetch("/api/generate-itinerary", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          destination,
-          startDate,
-          endDate,
-          accommodation: accommodation ? JSON.parse(accommodation) : null,
-          transportation: transportation ? JSON.parse(transportation) : null,
-          activities: selectedActivities
-        }),
-      });
-      
-      if (!itineraryResponse.ok) {
-        throw new Error("Failed to generate itinerary");
-      }
-      
-      const itineraryData = await itineraryResponse.json();
-      
-      // Navigate to final itinerary page
-      router.push({
-        pathname: "/generate-travel-plans/itinerary",
-        query: { data: JSON.stringify(itineraryData) },
-      });
+      router.push("/generate-travel-plans/summary");
     } catch (error) {
       console.error("Error generating itinerary:", error);
     } finally {

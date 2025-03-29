@@ -27,7 +27,7 @@ export class LLM {
         model: "gpt-4o",
         tools: [{ type: "web_search_preview_2025_03_11" }],
         tool_choice: "required",
-        input: `Based on the following information give me a country you would travel to: Budget:${budget} Purpose:${purpose} startDate:${startDate} endDate:${endDate} , Return one anwser, jsonify the answer, make sure it follows this format: {"name": "Country Name", "description": "Description of the country", "highlights": ["Highlight 1", "Highlight 2"], "bestTimeToVisit": "Best time to visit", "weather": "Weather information", "currency": "Currency used", "language": "Language spoken", "imageUrl": "URL of an Image of the country in the web", "safetyInfo": "Safety information", "visaRequirements": "Visa requirements"}, Return just JSON without any additional text or explanation. Make sure the JSON is valid and properly formatted without any json tags or tildes used for formatting. The country should be a real country that exists in the world, and the information should be accurate and up-to-date.`,
+        input: `Based on the following information give me a country you would travel to: Budget:${budget} Purpose:${purpose} startDate:${startDate} endDate:${endDate} , Return one anwser, jsonify the answer, make sure it follows this format: {"name": "Country Name", "description": "Description of the country", "highlights": ["Highlight 1", "Highlight 2"], "bestTimeToVisit": "Best time to visit", "weather": "Weather information", "currency": "Currency used", "language": "Language spoken", "safetyInfo": "Safety information", "visaRequirements": "Visa requirements"}, Return just JSON without any additional text or explanation. Make sure the JSON is valid and properly formatted without any json tags or tildes used for formatting. The country should be a real country that exists in the world, and the information should be accurate and up-to-date.`,
       });
       return response.output_text;
     } catch (error) {
@@ -72,7 +72,6 @@ Create a detailed JSON response with the following structure:
       "pricePerNight": 200,
       "totalPrice": 1000,
       "rating": 4.7,
-      "imageUrl": "https://images.unsplash.com/photo-example",
       "location": "Neighborhood, City",
       "amenities": ["Free WiFi", "Pool", "Breakfast included", "Fitness center"],
       "roomType": "Deluxe Room",
@@ -147,7 +146,6 @@ Create a detailed JSON response with the following structure:
       "duration": "14h 30m",
       "departureTime": "10:30 AM",
       "arrivalTime": "2:00 PM (+1)",
-      "imageUrl": "https://images.unsplash.com/photo-example",
       "provider": "Airline or Company Name",
       "amenities": ["In-flight meals", "Wi-Fi", "Entertainment"],
       "promoAvailable": true,
@@ -170,12 +168,6 @@ Important requirements:
 8. For each option, consider different departure/arrival times that serve different traveler preferences
 9. Ensure the "recommendedOption" is set to the option ID that best balances price, convenience, and quality
 10. Include at least one option with transfers > 0 and appropriate transferDetails
-11. For imageUrls, use ONLY these verified Unsplash URLs:
-    - https://images.unsplash.com/photo-1569154941061-e231b4725ef1
-    - https://images.unsplash.com/photo-1436491865332-7a61a109cc05
-    - https://images.unsplash.com/photo-1552917084-03e840186a77
-    - https://images.unsplash.com/photo-1606768666853-403c90a981ad
-    - https://images.unsplash.com/photo-1544620347-c4fd4a3d5957
 
 Return only valid JSON with no additional text, markdown formatting, or explanations. Ensure all values match the types specified in the schema.`,
       });
@@ -256,7 +248,6 @@ IMPORTANT REQUIREMENTS:
 14. Activity descriptions should be detailed and informative (25-40 words each)
 15. Activity types must be one of: "sightseeing", "cultural", "dining", "outdoor", "beach", "shopping", "entertainment", "music", "art", "nature", or "travel"
 16. Calculate total activities count and total cost accurately based on the generated data
-
 Return only valid JSON with no additional text, markdown formatting, or explanations. The response must be a single, well-formed JSON object matching the structure above.`,
       });
       return response.output_text;

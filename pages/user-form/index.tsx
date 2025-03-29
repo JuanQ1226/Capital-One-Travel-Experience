@@ -63,13 +63,13 @@ const UserFormPage = () => {
         throw new Error('Failed to generate itinerary');
       }
       
-      const itineraryData = await response.json();
-      console.log(itineraryData);
+      const CountryData = await response.json();
+      console.log(CountryData);
       
       // Navigate to results page with the data
       router.push({
         pathname: '/generate-travel-plans/destination',
-        query: { data: JSON.stringify(itineraryData) }
+        query: { data: JSON.stringify(CountryData) }
       });
     } catch (error) {
       console.error('Error generating itinerary:', error);

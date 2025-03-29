@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Button, Card, Spinner, Progress } from '@heroui/react';
 import Link from 'next/link';
+import { GetServerSideProps } from 'next';
 
 type DestinationData = {
   name: string;
@@ -16,82 +17,66 @@ type DestinationData = {
   visaRequirements: string;
 };
 
-const GeneratedDestinationPage = () => {
-  const [destination, setDestination] = useState<DestinationData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
 
-  useEffect(() => {
-    if (!router.isReady) return;
+interface TravelDestinationPageProps {
+  destination: DestinationData | null;
+  error?: string;
+}
 
-    const fetchDestinationData = async () => {
-      try {
-        const { itineraryId, data } = router.query;
 
-        // If data is passed directly through the URL
-        if (data && typeof data === 'string') {
-          const parsedData = JSON.parse(data);
-          setDestination(parsedData.destination);
-          setLoading(false);
-          return;
-        }
+export const getServerSideProps: GetServerSideProps<TravelDestinationPageProps> = async (context) => {
+  try {
+    const { data } = context.query;
 
-        // Otherwise fetch from API using the itineraryId
-        if (itineraryId) {
-          const response = await fetch(`/api/itinerary/destination?id=${itineraryId}`);
-          if (!response.ok) {
-            throw new Error('Failed to fetch destination data');
-          }
-          const data = await response.json();
-          setDestination(data);
-        } else {
-          // For demo purposes, show mock data if no ID is provided
-          setDestination({
-            name: 'Japan',
-            description: 'Japan is a fascinating blend of ancient traditions and cutting-edge modernity. From serene temples and beautiful cherry blossoms to bustling metropolises with neon-lit streets, Japan offers a unique cultural experience that captivates travelers from around the world.',
-            highlights: [
-              'Tokyo\'s vibrant urban landscape',
-              'Historic temples and shrines in Kyoto',
-              'Mount Fuji and surrounding natural beauty',
-              'Delicious and diverse cuisine',
-              'Efficient public transportation system'
-            ],
-            bestTimeToVisit: 'Spring (March to May) for cherry blossoms, or Fall (September to November) for colorful foliage',
-            weather: 'Four distinct seasons with mild spring, hot and humid summer, cool autumn, and cold winter',
-            currency: 'Japanese Yen (¥)',
-            language: 'Japanese (English is spoken at major tourist destinations)',
-            imageUrl: 'https://images.unsplash.com/photo-1526481280693-3bfa7568e0f3?ixlib=rb-4.0.3',
-            safetyInfo: 'Japan is considered one of the safest countries for travelers with low crime rates',
-            visaRequirements: 'Visa-free entry for up to 90 days for US citizens'
-          });
-        }
-      } catch (err) {
-        console.error('Error fetching destination data:', err);
-        setError('Unable to load destination information. Please try again.');
-      } finally {
-        setLoading(false);
-      }
+    console.log("Data from query params:", data);
+
+    // If data exists in the query params, parse it
+    if (data && typeof data === 'string') {
+      const parsedData = JSON.parse(data);
+      return {
+        props: {
+          destination: parsedData,
+        },
+      };
+    }
+
+    // If we don't have data in the URL and need to fetch it from an API
+    // You could also redirect to the form page instead
+    const response = await fetch("/api/generate-country", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch destination data');
+    }
+
+    const destinationData = await response.json();
+
+    return {
+      props: {
+        destination: destinationData,
+      },
     };
+  } catch (error) {
+    console.error('Error in getServerSideProps:', error);
 
-    fetchDestinationData();
-  }, [router.isReady, router.query]);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
-        <Spinner size="lg" color="danger" />
-        <p className="mt-4 text-lg">Discovering your perfect destination...</p>
-        <Progress 
-          className="max-w-md w-full mt-6" 
-          color="danger" 
-          value={25} 
-          label="Step 1 of 4: Destination Selection"
-          showValueLabel={true}
-        />
-      </div>
-    );
+    // Return null data and potentially an error message
+    return {
+      props: {
+        destination: null,
+        error: 'Failed to load destination data',
+      },
+    };
   }
+}
+
+
+
+const GeneratedDestinationPage = ({destination, error} : TravelDestinationPageProps) => {
+
 
   if (error || !destination) {
     return (

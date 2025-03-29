@@ -31,9 +31,17 @@ export default async function handler(
     const Agent = new LLM();
 
     const Country = await Agent.getCountry(budget, purpose, startDate, endDate);
+    
+
+    if (!Country) {
+      return res.status(500).json({ error: 'Failed to generate itinerary' });
+    }
+
+    // Parse the response to match the DestinationData type
+    const parsedCountry: DestinationData = JSON.parse(Country);
 
     
-    return res.status(200).json(Country);
+    return res.status(200).json(parsedCountry);
   } catch (error) {
     console.error('Error generating itinerary:', error);
     return res.status(500).json({ error: 'Failed to generate itinerary' });

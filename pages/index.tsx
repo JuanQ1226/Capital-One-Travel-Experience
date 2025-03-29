@@ -1,44 +1,86 @@
-import { Image } from "@heroui/react";
+import { Card, Divider } from "@heroui/react";
 import mainBg from "@/public/main_bg.jpg";
 import { Button } from "@heroui/button";
 import { Roboto } from "next/font/google";
 import Link from "next/link";
-
-// Importing the Roboto font\
-const roboto = Roboto({
-  subsets: ["latin"],
-  variable: "--font-roboto",
-  display: "swap",
-});
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlane, faMapMarkedAlt, faDollar, faPlaneDeparture } from "@fortawesome/free-solid-svg-icons";
 
 export default function IndexPage() {
   return (
-    <div className={`relative z-0 flex flex-col items-center justify-center min-h-screen bg-gray-100 ${roboto.className}`}>
-      <div className="absolute inset-0 bg-gray-900 opacity-50 w-full h-full -z-9"></div>
-      <img
-        className="absolute inset-0 object-cover w-full h-full -z-10" 
-        src="/main_bg.jpg" 
-        alt="Background image"
-      />
-      
-      {/* Content container with text and button */}
-      <div className="z-10 max-w-3xl mx-auto text-center px-6">
-        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-          Capital One Travel Experience
-        </h1>
-        <p className="text-xl md:text-2xl text-white mb-8">
-          Let our AI create a personalized travel itinerary based on your preferences and past experiences.
-        </p>
-        <div className="mb-6 text-white text-lg">
-          Using your travel history and preferences to craft the perfect journey for you.
+    <div className={"flex flex-row h-screen w-full"}>
+      <div className="relative w-1/2 flex items-center justify-center">
+        <Card className="aspect-square absolute z-10 p-4 bg-white rounded-lg shadow-lg text-center flex flex-col items-center justify-center gap-4">
+            <h1 className="font-semibold font-serif text-4xl">
+              Book your Next Trip
+            </h1>
+            <p className="mt-2 text-gray-600">
+              Discover the world with our travel booking platform.
+            </p>
+          <Link href="/user-form">
+            <Button size="lg" className="mt-4 bg-black text-white hover:bg-gray-800">
+              Get Started
+            </Button>
+          </Link>
+        </Card>
+        <img
+          src="/main_bg.jpg"
+          alt="Background"
+          className="object-cover w-full h-full"
+        />
+        <div className="absolute inset-0 bg-black opacity-50"></div>
+      </div>
+      <div className="w-1/2 flex flex-col items-center container mx-auto max-w-3xl bg-white gap-8">
+        <div className="flex flex-col items-center justify-center">
+          <h1 className={`font-serif text-6xl text-black font-bold`}>
+            Capital Travel
+          </h1>
+          <p className="mt-2 text-black text-2xl">
+            Your gateway to unforgettable journeys.
+          </p>
         </div>
-        <Button
-          as={Link}
-          href="/user-form"
-          className="bg-red-500 hover:bg-red-800 text-white font-semibold py-3 px-8 text-lg rounded-lg shadow-lg transition-all"
-        >
-          Create My Custom Itinerary
-        </Button>
+        <Divider/>
+        <div>
+          <div>
+            <FontAwesomeIcon
+              icon={faMapMarkedAlt}
+              className="text-4xl text-black mt-4"
+            />
+            <h2 className="text-4xl font-bold text-black mt-4 font-serif">Smart Destinations</h2>
+          </div>
+          <p className="mt-2 text-black text-lg">
+            Personalized Recommendations - Our AI will suggest destinations
+            based on your preferences, making travel planning a breeze.
+          </p>
+        <div>
+          <div>
+            <FontAwesomeIcon
+              icon={faPlaneDeparture}
+              className="text-4xl text-black mt-4"
+            />
+            <h2 className="text-4xl font-bold text-black mt-4 font-serif">Custom Itineraries</h2>
+          </div>
+          <p className="mt-2 text-black text-lg">
+            AI-Powered Itineraries - We&apos;ll use AI to create personalized
+            trip plans based on past travels and spending habits, making
+            planning effortless.
+          </p>
+          </div>
+          <div>
+            <div className="">
+              <FontAwesomeIcon
+                icon={faDollar}
+                className="text-4xl text-black mt-4"
+              />
+              <h2 className="text-4xl font-bold font-serif text-black mt-4">Money-Saving Deals</h2>
+            </div>
+            <p className="mt-2 text-black text-lg">
+              Smart Budget & Deals - Our system will find the best discounts
+              and cashback offers, ensuring every trip is cost-effective and
+              rewarding.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

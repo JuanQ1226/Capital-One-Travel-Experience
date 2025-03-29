@@ -58,6 +58,17 @@ export default function IndexPage() {
         //console.log('\nActivities and Ratings:');
         console.log('Most enjoyed activities ' + activitiesString);
 
+        // const sendToLLMResponse = await fetch('/api/db-handler', {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        //   body: JSON.stringify({ countries: countriesString, activities: activitiesString }),
+        // });
+
+        // const sendToLLMResult = await sendToLLMResponse.json();
+        // console.log('Response from db-handler:', sendToLLMResult);
+
       } catch (error) {
         console.error('Error fetching data:', error);
       }

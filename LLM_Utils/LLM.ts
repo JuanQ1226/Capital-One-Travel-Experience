@@ -1,7 +1,24 @@
 import OpenAI from "openai";
 import dotenv from "dotenv";
+import { NextApiRequest, NextApiResponse } from 'next';
 
 dotenv.config();
+
+// export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+//   if (req.method === 'POST') {
+//     const { countries, activities } = req.body;
+
+//     console.log('Received data in LLM:', { countries, activities });
+
+//     res.status(200).json({
+//       message: 'Data received and processed by LLM',
+//       countries,
+//       activities,
+//     });
+//   } else {
+//     res.status(405).json({ message: 'Method Not Allowed' });
+//   }
+// }
 
 export class LLM {
   private client: OpenAI;
@@ -15,6 +32,8 @@ export class LLM {
     }
     this.client = new OpenAI({ apiKey: apiKeyText });
   }
+
+
 
   // async fetchAndProcessData() {
   //   try {

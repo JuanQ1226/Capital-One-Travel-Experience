@@ -26,6 +26,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     r.rating DESC  -- Ordering by review rating (top 5 highest ratings)
   LIMIT 5;
     `);
+
+  //   if( req.method === 'POST'){
+  //     const { countries, activities } = req.body;
+
+  //   console.log('Received data from front-end:', { countries, activities });
+
+  //   // Forward to LLM.ts or any other processing logic here
+  //   const llmResponse = await fetch('http://localhost:3000/LLM_Utils/LLM', { 
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({ countries, activities })
+  //   });
+  // }
     res.status(200).json(result.rows); // Send data from the query result to the frontend
   } catch (error) {
     console.error('Error fetching data:', error);  // Log the actual error for better debugging

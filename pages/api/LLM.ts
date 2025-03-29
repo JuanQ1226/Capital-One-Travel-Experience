@@ -1,5 +1,3 @@
-
-import type { NextApiRequest, NextApiResponse } from 'next';
 import OpenAI from "openai";
 import dotenv from 'dotenv';
 
@@ -60,3 +58,4 @@ class LLM {
 
 
 }
+module.exports(LLM)

@@ -170,6 +170,11 @@ const TransportationPage = ({ transportationData, error }: TransportationPagePro
       // Store selected transportation in local storage
       localStorage.setItem("selectedTransportation", JSON.stringify(selectedTransport));
       
+      // Retrieve accommodation data from local storage
+      const accommodationData = localStorage.getItem("selectedAccommodation");
+      const accomodationName = accommodationData ? JSON.parse(accommodationData).name : "";
+      const accomodationLocation = accommodationData ? JSON.parse(accommodationData).location : "";
+
       // Make API request to get activities data
       const activitiesResponse = await fetch("/api/generate-activities", {
         method: "POST",
@@ -178,10 +183,12 @@ const TransportationPage = ({ transportationData, error }: TransportationPagePro
         },
         body: JSON.stringify({ 
           destination: transportationData?.destination,
-          transportation: selectedTransport?.name,
-          transportationType: selectedTransport?.type,
           arrivalTime: selectedTransport?.arrivalTime,
-          departureTime: selectedTransport?.departureTime
+          startDate: localStorage.getItem("startDate"),
+          endDate: localStorage.getItem("endDate"),
+          budget: localStorage.getItem("budget"),
+          accomodationName,
+          accomodationLocation,
         }),
       });
       
@@ -217,8 +224,12 @@ const TransportationPage = ({ transportationData, error }: TransportationPagePro
   };
   
   const getAmenityIcon = (amenity: string) => {
-    if (amenity.toLowerCase().includes("meal")) return faUtensils;
+    if (amenity.toLowerCase().includes("meals")) return faUtensils;
+    if (amenity.toLowerCase().includes("snacks")) return faUtensils;
     if (amenity.toLowerCase().includes("wifi")) return faWifi;
+    if (amenity.toLowerCase().includes("internet")) return faWifi;
+    if (amenity.toLowerCase().includes("dining")) return faUtensils;
+    if (amenity.toLowerCase().includes("wi-fi")) return faWifi;
     if (amenity.toLowerCase().includes("entertainment")) return faTv;
     if (amenity.toLowerCase().includes("usb") || amenity.toLowerCase().includes("charging")) return faChargingStation;
     if (amenity.toLowerCase().includes("luggage")) return faLuggageCart;

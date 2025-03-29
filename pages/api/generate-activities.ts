@@ -19,7 +19,7 @@ export default async function handler(
     const Agent = new LLM();
     let parsedItenary;
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 10; i++) {
       const Ite = await Agent.getItenary(destination, arrivalTime,startDate, endDate, budget, accomodationName, accomodationLocation);
       if (Ite) {
         try {

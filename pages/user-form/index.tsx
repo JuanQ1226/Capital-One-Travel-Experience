@@ -121,7 +121,7 @@ const UserFormPage = () => {
         >
 
           <div>
-            <h1 className="text-4xl font-bold mb-2 text-black">
+            <h1 className="text-4xl font-bold mb-2 text-black text-center">
               Plan Your Journey
             </h1>
             <p className="text-tiny mb-3 text-gray-700">

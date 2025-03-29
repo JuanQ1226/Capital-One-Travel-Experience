@@ -60,6 +60,9 @@ const UserFormPage = () => {
         body: JSON.stringify(formData),
       });
       
+      // Save the data to local storage
+      localStorage.setItem('countryData', JSON.stringify(formData));
+
       if (!response.ok) {
         throw new Error('Failed to generate itinerary');
       }

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import { Button, Card, Spinner, Progress } from '@heroui/react';
-import Link from 'next/link';
-import { GetServerSideProps } from 'next';
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { Button, Card, Spinner, Progress } from "@heroui/react";
+import Link from "next/link";
+import { GetServerSideProps } from "next";
 
 type DestinationData = {
   name: string;
@@ -17,21 +17,21 @@ type DestinationData = {
   visaRequirements: string;
 };
 
-
 interface TravelDestinationPageProps {
   destination: DestinationData | null;
   error?: string;
 }
 
-
-export const getServerSideProps: GetServerSideProps<TravelDestinationPageProps> = async (context) => {
+export const getServerSideProps: GetServerSideProps<
+  TravelDestinationPageProps
+> = async (context) => {
   try {
     const { data } = context.query;
 
     console.log("Data from query params:", data);
 
     // If data exists in the query params, parse it
-    if (data && typeof data === 'string') {
+    if (data && typeof data === "string") {
       const parsedData = JSON.parse(data);
       return {
         props: {
@@ -43,14 +43,14 @@ export const getServerSideProps: GetServerSideProps<TravelDestinationPageProps> 
     // If we don't have data in the URL and need to fetch it from an API
     // You could also redirect to the form page instead
     const response = await fetch("/api/generate-country", {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     });
 
     if (!response.ok) {
-      throw new Error('Failed to fetch destination data');
+      throw new Error("Failed to fetch destination data");
     }
 
     const destinationData = await response.json();
@@ -61,30 +61,69 @@ export const getServerSideProps: GetServerSideProps<TravelDestinationPageProps> 
       },
     };
   } catch (error) {
-    console.error('Error in getServerSideProps:', error);
+    console.error("Error in getServerSideProps:", error);
 
     // Return null data and potentially an error message
     return {
       props: {
         destination: null,
-        error: 'Failed to load destination data',
+        error: "Failed to load destination data",
       },
     };
   }
-}
+};
 
+const GeneratedDestinationPage = ({
+  destination,
+  error,
+}: TravelDestinationPageProps) => {
+  const [loading, setLoading] = useState(false);
 
+  const router = useRouter();
 
-const GeneratedDestinationPage = ({destination, error} : TravelDestinationPageProps) => {
-
+  // Handle Move to the next page
+  const handleContinue = async () => {
+    setLoading(true);
+    try {
+      const accomodationData = await fetch("/api/generate-accomodations", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ destination: destination?.name }),
+      });
+      if (!accomodationData.ok) {
+        throw new Error("Failed to fetch accommodation data");
+      }
+      const accomodation = await accomodationData.json();
+      console.log("Accommodation data:", accomodation);
+      router.push({
+        pathname: "/generate-travel-plans/accomodations",
+        query: { data: JSON.stringify(accomodation) },
+      });
+    } catch (error) {
+      console.error("Error moving to the next page:", error);
+    }
+  };
 
   if (error || !destination) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
-        <Card radius="md" shadow="md" className="p-6 bg-white text-center max-w-md">
+        <Card
+          radius="md"
+          shadow="md"
+          className="p-6 bg-white text-center max-w-md"
+        >
           <h2 className="text-2xl font-bold mb-4">Something went wrong</h2>
-          <p className="mb-6">{error || "We couldn't load your destination information. Please try again."}</p>
-          <Button as={Link} href="/user-form" className="bg-red-500 hover:bg-red-800 text-white">
+          <p className="mb-6">
+            {error ||
+              "We couldn't load your destination information. Please try again."}
+          </p>
+          <Button
+            as={Link}
+            href="/user-form"
+            className="bg-red-500 hover:bg-red-800 text-white"
+          >
             Return to Form
           </Button>
         </Card>
@@ -97,15 +136,15 @@ const GeneratedDestinationPage = ({destination, error} : TravelDestinationPagePr
       <div className="max-w-4xl mx-auto">
         {/* Progress indicator */}
         <div className="mb-8">
-          <Progress 
-            className="w-full" 
-            color="danger" 
-            value={25} 
+          <Progress
+            className="w-full"
+            color="danger"
+            value={25}
             label="Step 1 of 4: Destination Selection"
             showValueLabel={true}
           />
         </div>
-        
+
         <Card radius="md" shadow="md" className="bg-white mb-6 overflow-hidden">
           {/* Destination image */}
           <div className="w-full h-64 relative">
@@ -120,22 +159,28 @@ const GeneratedDestinationPage = ({destination, error} : TravelDestinationPagePr
               <p className="text-lg">Your ideal destination awaits</p>
             </div>
           </div>
-          
+
           {/* Destination details */}
           <div className="p-8">
-            <h2 className="text-2xl font-semibold mb-4">Destination Overview</h2>
+            <h2 className="text-2xl font-semibold mb-4">
+              Destination Overview
+            </h2>
             <p className="text-gray-700 mb-6">{destination.description}</p>
-            
+
             <h3 className="text-xl font-semibold mb-3">Highlights</h3>
             <ul className="list-disc pl-5 mb-6 space-y-1">
               {destination.highlights.map((highlight, index) => (
-                <li key={index} className="text-gray-700">{highlight}</li>
+                <li key={index} className="text-gray-700">
+                  {highlight}
+                </li>
               ))}
             </ul>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
               <div>
-                <h3 className="text-xl font-semibold mb-2">Best Time to Visit</h3>
+                <h3 className="text-xl font-semibold mb-2">
+                  Best Time to Visit
+                </h3>
                 <p className="text-gray-700">{destination.bestTimeToVisit}</p>
               </div>
               <div>
@@ -151,7 +196,7 @@ const GeneratedDestinationPage = ({destination, error} : TravelDestinationPagePr
                 <p className="text-gray-700">{destination.language}</p>
               </div>
             </div>
-            
+
             <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
               <h3 className="text-xl font-semibold mb-2">Travel Info</h3>
               <p className="font-medium">Safety: </p>
@@ -161,29 +206,41 @@ const GeneratedDestinationPage = ({destination, error} : TravelDestinationPagePr
             </div>
           </div>
         </Card>
-        
+
         {/* Navigation buttons */}
         <div className="flex justify-between items-center">
-          <Button 
-            as={Link} 
-            href="/user-form" 
+          <Button
+            as={Link}
+            href="/user-form"
             variant="bordered"
             className="border-red-500 text-red-500"
           >
             Change Preferences
           </Button>
-          <Button 
-            as={Link} 
-            href="/generate-travel-plans/activities" 
-            className="bg-red-500 hover:bg-red-800 text-white"
+          <Button
+            onPress={handleContinue}
+            disabled={loading}
+            className={`${loading ? "bg-gray-400" : "bg-red-500 hover:bg-red-800"} text-white`}
           >
-            Continue to Activities
+            {loading ? (
+              <div className="flex items-center justify-center">
+                <Spinner size="sm" color="white" className="mr-2" />
+                <span>Processing...</span>
+              </div>
+            ) : (
+              "Continue to Accommodations"
+            )}
           </Button>
         </div>
-        
+
         <div className="text-center mt-8 text-gray-500 text-sm">
-          <p>This destination was selected based on your preferences by Capital One Travel AI.</p>
-          <p>Click continue to see the activities we've selected for your trip.</p>
+          <p>
+            This destination was selected based on your preferences by Capital
+            One Travel AI.
+          </p>
+          <p>
+            Click continue to see the activities we've selected for your trip.
+          </p>
         </div>
       </div>
     </div>

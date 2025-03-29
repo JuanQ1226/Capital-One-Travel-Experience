@@ -29,3 +29,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(500).json({ message: 'Error fetching data', error: error.message });  // Send a 500 status and error message
   }
 }
+
+
+

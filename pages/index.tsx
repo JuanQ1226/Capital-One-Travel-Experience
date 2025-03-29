@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 
 export default function IndexPage() {
 
-// Database
+// Database API Call
   const [data, setData] = useState<any>(null);
 
   useEffect(() => {
@@ -18,40 +18,45 @@ export default function IndexPage() {
       try {
         const response = await fetch('/api/db-handler');  // Call API route
         const result = await response.json();
-        console.log('Data received:', result); // Log the data received from the API
+        console.log('Data received:', result); // Log the data
         setData(result);
         
         const formattedData = result.reduce((acc: any, row: any) => {
-          // Check if the country already exists in the accumulator
+          // Check if the country already exists
           if (!acc[row.country]) {
-            acc[row.country] = [];
+            acc[row.country] = {
+              countries: new Set(),
+              activities: new Set()
+            };
           }
         
-          // Add the activity and rating for this country
-          acc[row.country].push(`Activity: ${row.activity} - Rating: ${row.rating}/5`);
+          // We need to ensure unique entries of countries and ratings before adding to the set
+          acc[row.country].countries.add(`${row.country} Rating ${row.rating}/5`);
+        
+          // Same here but add activities and ratings
+          acc[row.country].activities.add(`${row.activity} Rating ${row.rating}/5`);
         
           return acc;
         }, {});
-
-        const formattedDataString = Object.entries(formattedData)
-          .map(([country, activities]: [string, string[]]) => {
-            return `- **${country}**:\n  ${activities.join('\n  ')}`;
+        
+        // Separate results
+        const countriesString = Object.entries(formattedData)
+          .map(([country, { countries }]: [string, { countries: Set<string> }]) => {
+            return `${[...countries].join(', ')}`;
           })
           .join('\n');
-
-        // Optionally, log the result for debugging
-        console.log(formattedDataString);
-
-        // // Assuming result.data is an array of rows, you can process it like this:
-        // const formattedData = result.map((row: any) => {
-        //   return `Take the user's past trips into consideration: This user has travelled to: ${row.country} and did ${row.activity} and gave it a rating of ${row.rating} out of 5 stars`;  // Customize based on your data structure
-        // }).join('\n');  // Join all rows into one string, separated by newlines
-
-        // console.log('Formatted Data:', formattedData);  // Log the processed formatted data
-        // setData(formattedData);  // Set the processed data into state
-
-
         
+        const activitiesString = Object.entries(formattedData)
+          .map(([country, { activities }]: [string, { activities: Set<string> }]) => {
+            return `${[...activities].join(', ')}`;
+          })
+          .join('\n');
+        
+        // Debugging Log
+        //console.log('Countries and Ratings:');
+        console.log('Most enjoyed countries ' + countriesString);
+        //console.log('\nActivities and Ratings:');
+        console.log('Most enjoyed activities ' + activitiesString);
 
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -60,7 +65,7 @@ export default function IndexPage() {
 
     fetchData();
   }, []);
-// Database end
+// Database API Call End
 
   return (
     <div className={"flex flex-row h-screen w-full"}>

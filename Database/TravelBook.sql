@@ -159,7 +159,7 @@ VALUES
 -- Inserting data into Activities table (activities for each day of the itinerary)
 INSERT INTO travel_schema."Activities" ("id", "itinerary_id", "name", "category", "location", "start_time", "end_time", "cost")
 VALUES
-(1, 1, 'Flight to Tokyo', 'Travel', 'Tokyo Airport', '10:00', '12:00', 1500.00),
+(1, 1, 'Ride to Tokyo Ride', 'Travel', 'Tokyo Station', '10:00', '12:00', 1500.00),
 (2, 2, 'Sightseeing Tour', 'Sightseeing', 'Tokyo Tower', '09:00', '12:00', 200.00),
 (3, 3, 'Visit Senso-ji Temple', 'Sightseeing', 'Asakusa', '10:00', '12:00', 100.00);
 

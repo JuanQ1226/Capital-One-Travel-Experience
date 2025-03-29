@@ -150,8 +150,8 @@ const AccommodationsPage = ({ accommodationData, error }: AccommodationsPageProp
       // Find the selected accommodation
       const selectedAccommodation = accommodationData?.options.find(opt => opt.id === selectedOption);
       
-      // Make API request to get activities data
-      const activitiesResponse = await fetch("/api/generate-activities", {
+      // Make API request to fetch transportation options
+      const transportationResponse = await fetch("/api/generate-transportation", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -162,17 +162,20 @@ const AccommodationsPage = ({ accommodationData, error }: AccommodationsPageProp
           location: selectedAccommodation?.location
         }),
       });
+
+      // Store selected accommodation in local storage
+      localStorage.setItem("selectedAccommodation", JSON.stringify(selectedAccommodation));
       
-      if (!activitiesResponse.ok) {
-        throw new Error("Failed to fetch activities data");
+      if (!transportationResponse.ok) {
+        throw new Error("Failed to fetch transportation data");
       }
       
-      const activitiesData = await activitiesResponse.json();
+      const transportationData = await transportationResponse.json();
       
       // Navigate to activities page
       router.push({
-        pathname: "/generate-travel-plans/activities",
-        query: { data: JSON.stringify(activitiesData) },
+        pathname: "/generate-travel-plans/transportation",
+        query: { data: JSON.stringify(transportationData) },
       });
     } catch (error) {
       console.error("Error moving to the next page:", error);
@@ -362,7 +365,7 @@ const AccommodationsPage = ({ accommodationData, error }: AccommodationsPageProp
                   <span>Processing...</span>
                 </div>
               ) : (
-                "Continue to Activities"
+                "Continue to Transportation"
               )}
             </Button>
           </div>

@@ -89,7 +89,7 @@ const GeneratedDestinationPage = ({
       const endDate = localStorage.getItem("endDate");
       const budget = localStorage.getItem("budget");
       const purpose = localStorage.getItem("purpose");
-      const accomodationData = await fetch("/api/generate-accomodations", {
+      const accomodationData = await fetch("/api/generate-acomodations", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -1,5 +1,5 @@
 import OpenAI from "openai";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -9,17 +9,25 @@ export class LLM {
   constructor() {
     const apiKeyText = process.env.OPENAI_API_KEY;
     if (!apiKeyText) {
-      throw new Error("OPENAI_API_KEY is not set in the environment variables.");
+      throw new Error(
+        "OPENAI_API_KEY is not set in the environment variables."
+      );
     }
     this.client = new OpenAI({ apiKey: apiKeyText });
   }
 
-  async getCountry(budget: any,purpose: any, startDate: any, endDate: any): Promise<string | null> {
+  async getCountry(
+    budget: any,
+    purpose: any,
+    startDate: any,
+    endDate: any
+  ): Promise<string | null> {
     try {
       const response = await this.client.responses.create({
         model: "gpt-4o",
         tools: [{ type: "web_search_preview_2025_03_11" }],
-        input: `Based on the following information give me a country you would travel to: Budget:${budget} Purpose:${purpose} startDate:${startDate} endDate:${endDate} , Return one anwser, jsonify the answer, make sure it follows this format: {"name": "Country Name", "description": "Description of the country", "highlights": ["Highlight 1", "Highlight 2"], "bestTimeToVisit": "Best time to visit", "weather": "Weather information", "currency": "Currency used", "language": "Language spoken", "imageUrl": "URL of an Image of the country in the web", "safetyInfo": "Safety information", "visaRequirements": "Visa requirements"}, Return in plain text`,
+
+        input: `Based on the following information give me a country you would travel to: Budget:${budget} Purpose:${purpose} startDate:${startDate} endDate:${endDate} , Return one anwser, jsonify the answer, make sure it follows this format: {"name": "Country Name", "description": "Description of the country", "highlights": ["Highlight 1", "Highlight 2"], "bestTimeToVisit": "Best time to visit", "weather": "Weather information", "currency": "Currency used", "language": "Language spoken", "imageUrl": "URL of an Image of the country in the web", "safetyInfo": "Safety information", "visaRequirements": "Visa requirements"}, Return just JSON without any additional text or explanation. Make sure the JSON is valid and properly formatted without any json tags or tildes used for formatting. The country should be a real country that exists in the world, and the information should be accurate and up-to-date.`,
       });
       return response.output_text;
     } catch (error) {
@@ -28,12 +36,19 @@ export class LLM {
     }
   }
 
-  async getAccomodations(budget: any, purpose: any, startDate: any, endDate: any, destination: any): Promise<string | null> {
+  async getAccomodations(
+    budget: any,
+    purpose: any,
+    startDate: any,
+    endDate: any,
+    destination: any
+  ): Promise<string | null> {
     try {
       const response = await this.client.responses.create({
         model: "gpt-4o",
         tools: [{ type: "web_search_preview_2025_03_11" }],
-        input: `You are a travel API that exclusively returns structured JSON data. Generate accommodation options for travelers visiting ${destination} based on their specific trip details.
+        tool_choice: "auto",
+        input: `You are a travel API that exclusively returns structured JSON data without any json tags or tildes used for formatting, just the plain JSON structure. Generate accommodation options for travelers visiting ${destination} based on their specific trip details.
 
 Trip Details:
 - Destination: ${destination}
@@ -94,7 +109,13 @@ Return accommodations that best represent the destination's culture, match the t
     }
   }
 
-  async getActivies(budget: any, purpose: any, startDate: any, endDate: any, contry: any, ): Promise<string | null> {
+  async getActivies(
+    budget: any,
+    purpose: any,
+    startDate: any,
+    endDate: any,
+    contry: any
+  ): Promise<string | null> {
     try {
       const response = await this.client.responses.create({
         model: "gpt-4o",
@@ -107,6 +128,4 @@ Return accommodations that best represent the destination's culture, match the t
       return null;
     }
   }
-
-
 }

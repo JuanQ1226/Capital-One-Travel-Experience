@@ -10,6 +10,9 @@ export default async function handler(
   }
 
   try {
+
+    
+
     const { startDate, endDate, budget, purpose } = req.body;
 
     // Here you would typically make a call to an LLM API like OpenAI

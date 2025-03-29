@@ -2,11 +2,13 @@ import OpenAI from "openai";
 import dotenv from "dotenv";
 
 dotenv.config();
-
 export class LLM {
   private client: OpenAI;
 
-  constructor() {
+  constructor();
+  constructor(Countries: string, Activities: string);
+  constructor(Countries?: string, Activities?: string) 
+  {
     const apiKeyText = process.env.OPENAI_API_KEY;
     if (!apiKeyText) {
       throw new Error(
@@ -16,6 +18,9 @@ export class LLM {
     this.client = new OpenAI({ apiKey: apiKeyText });
   }
 
+    
+  
+
   async getCountry(
     budget: any,
     purpose: any,
@@ -23,11 +28,13 @@ export class LLM {
     endDate: any
   ): Promise<string | null> {
     try {
+      const MostVisited = await this.callDB();
+
       const response = await this.client.responses.create({
         model: "gpt-4o",
         tools: [{ type: "web_search_preview_2025_03_11" }],
         tool_choice: "required",
-        input: `Based on the following information give me a country you would travel to: Budget:${budget} Purpose:${purpose} startDate:${startDate} endDate:${endDate} , Return one anwser, jsonify the answer, make sure it follows this format: {"name": "Country Name", "description": "Description of the country", "highlights": ["Highlight 1", "Highlight 2"], "bestTimeToVisit": "Best time to visit", "weather": "Weather information", "currency": "Currency used", "language": "Language spoken", "safetyInfo": "Safety information", "visaRequirements": "Visa requirements"}, Return just JSON without any additional text or explanation. Make sure the JSON is valid and properly formatted without any json tags or tildes used for formatting. The country should be a real country that exists in the world, and the information should be accurate and up-to-date.`,
+        input: `Based on the following information give me a country you would travel to: Budget:${budget} Purpose:${purpose} startDate:${startDate} endDate:${endDate} previous most visited: ${MostVisited}, Return one anwser, jsonify the answer, make sure it follows this format: {"name": "Country Name", "description": "Description of the country", "highlights": ["Highlight 1", "Highlight 2"], "bestTimeToVisit": "Best time to visit", "weather": "Weather information", "currency": "Currency used", "language": "Language spoken", "safetyInfo": "Safety information", "visaRequirements": "Visa requirements"}, Return just JSON without any additional text or explanation. Make sure the JSON is valid and properly formatted without any json tags or tildes used for formatting. The country should be a real country that exists in the world, and the information should be accurate and up-to-date.`,
       });
       return response.output_text;
     } catch (error) {
@@ -271,6 +278,28 @@ Return only valid JSON with no additional text, markdown formatting, or explanat
       console.error("Error fetching positive news:", error);
       return null;
     }
+  }
+
+
+
+  async callDB(): Promise<any | null>{
+    try{
+    const DB = await fetch("/api/db-handler", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ 
+        contries: "Water",
+        accommodation: "Nothing",
+      }),
+    });
+    return DB
+    }
+    catch(error){
+      console.error('Error when Quering DB', error);
+    }
+
   }
 
 }

@@ -5,9 +5,80 @@ import { Roboto } from "next/font/google";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlane, faMapMarkedAlt, faDollar, faPlaneDeparture } from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useState } from 'react';
+
 import Image from "next/image";
 
 export default function IndexPage() {
+
+// // Database API Call
+//   const [data, setData] = useState<any>(null);
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         const response = await fetch('/api/db-handler');  // Call API route
+//         const result = await response.json();
+//         console.log('Data received:', result); // Log the data
+//         setData(result);
+        
+//         const formattedData = result.reduce((acc: any, row: any) => {
+//           // Check if the country already exists
+//           if (!acc[row.country]) {
+//             acc[row.country] = {
+//               countries: new Set(),
+//               activities: new Set()
+//             };
+//           }
+        
+//           // We need to ensure unique entries of countries and ratings before adding to the set
+//           acc[row.country].countries.add(`${row.country} Rating ${row.rating}/5`);
+        
+//           // Same here but add activities and ratings
+//           acc[row.country].activities.add(`${row.activity} Rating ${row.rating}/5`);
+        
+//           return acc;
+//         }, {});
+        
+//         // Separate results
+//         const countriesString = Object.entries(formattedData)
+//           .map(([country, { countries }]: [string, { countries: Set<string> }]) => {
+//             return `${[...countries].join(', ')}`;
+//           })
+//           .join('\n');
+        
+//         const activitiesString = Object.entries(formattedData)
+//           .map(([country, { activities }]: [string, { activities: Set<string> }]) => {
+//             return `${[...activities].join(', ')}`;
+//           })
+//           .join('\n');
+        
+//         // Debugging Log
+//         //console.log('Countries and Ratings:');
+//         console.log('Most enjoyed countries ' + countriesString);
+//         //console.log('\nActivities and Ratings:');
+//         console.log('Most enjoyed activities ' + activitiesString);
+
+//         const sendToLLMResponse = await fetch('/api/db-handler', {
+//           method: 'POST',
+//           headers: {
+//             'Content-Type': 'application/json',
+//           },
+//           body: JSON.stringify({ countries: countriesString, activities: activitiesString }),
+//         });
+
+//         const sendToLLMResult = await sendToLLMResponse.json();
+//         console.log('Response from db-handler:', sendToLLMResult);
+
+//       } catch (error) {
+//         console.error('Error fetching data:', error);
+//       }
+//     };
+
+//     fetchData();
+//   }, []);
+// Database API Call End
+
   return (
     <div className="flex flex-col md:flex-row w-full overflow-hidden">
       {/* Left Section - Hero Image & CTA Card */}
@@ -29,8 +100,7 @@ export default function IndexPage() {
           <Image //photo
             src="/main_bg.jpg"
             alt="Travel Destination"
-            layout="fill"
-            objectFit="cover"
+            fill
             priority
           />
         </div>

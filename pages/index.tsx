@@ -89,7 +89,7 @@ export default function IndexPage() {
               <div className="p-3 md:p-4 bg-red-100 rounded-full">
                 <FontAwesomeIcon
                   icon={faDollar}
-                  className="text-2xl md:text-3xl text-red-600"
+                  className="text-2xl md:text-3xl text-red-600 px-1.5"
                 />
               </div>
               <h2 className="text-xl md:text-2xl font-bold text-gray-800 font-serif">Money-Saving Deals</h2>

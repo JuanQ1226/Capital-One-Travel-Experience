@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import {LLM} from './LLM'
+import {LLM} from '../../LLM_Utils/LLM'
 
 type ItineraryData = {
   destination: string;

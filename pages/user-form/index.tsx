@@ -65,6 +65,7 @@ const UserFormPage = () => {
         endDate: endDate?.toString(),
         budget: budget,
         purpose: purpose,
+        usePrevTrips: usePreviousInfo
       };
 
       // Save preferences to local storage

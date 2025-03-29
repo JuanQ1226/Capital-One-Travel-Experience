@@ -165,18 +165,18 @@ export class LLM {
     budget: any,
     purpose: any,
     startDate: any,
-    endDate: any
+    endDate: any,
+    previousTrips?: any[]
   ): Promise<string | null> {
     try {
-      
       let MostVisited : string = this.getMostVisitedCountry();
-
+      let trips = previousTrips ? previousTrips : "IGNORE THERE ARE NO TRIPS";
 
       const response = await this.client.responses.create({
         model: "gpt-4o",
         tools: [{ type: "web_search_preview_2025_03_11" }],
         tool_choice: "required",
-        input: `Based on the following information give me a country you would travel to: Budget:${budget} Purpose:${purpose} startDate:${startDate} endDate:${endDate} previous most visited country : ${MostVisited}, Return one anwser, jsonify the answer, make sure it follows this format: {"name": "Country Name", "description": "Description of the country", "highlights": ["Highlight 1", "Highlight 2"], "bestTimeToVisit": "Best time to visit", "weather": "Weather information", "currency": "Currency used", "language": "Language spoken", "safetyInfo": "Safety information", "visaRequirements": "Visa requirements"}, Return just JSON without any additional text or explanation. Make sure the JSON is valid and properly formatted without any json tags or tildes used for formatting. The country should be a real country that exists in the world, and the information should be accurate and up-to-date.`,
+        input: `Based on the following information give me a country you would travel to: Budget:${budget} Purpose:${purpose} startDate:${startDate} endDate:${endDate}, Previous Most Visited Country: ${MostVisited},Return one anwser, jsonify the answer, make sure it follows this format: {"name": "Country Name", "description": "Description of the country", "highlights": ["Highlight 1", "Highlight 2"], "bestTimeToVisit": "Best time to visit", "weather": "Weather information", "currency": "Currency used", "language": "Language spoken", "safetyInfo": "Safety information", "visaRequirements": "Visa requirements"}, Return just JSON without any additional text or explanation. Make sure the JSON is valid and properly formatted without any json tags or tildes used for formatting. The country should be a real country that exists in the world, and the information should be accurate and up-to-date. Also adjust the country based on the following past trips to avoid repetition: ${previousTrips}`,
       });
       return response.output_text;
     } catch (error) {

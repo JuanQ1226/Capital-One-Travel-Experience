@@ -22,5 +22,6 @@ export const config = {
     "/generate-activities/:path*",
     "/generate-acomodations/:path*",
     "/generate-country/:path*",
+    "/saved-trips/:path*",
   ],
 };

@@ -1,5 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { LLM } from "../../LLM_Utils/LLM";
+import { parse } from "cookie";
+import { MongoClient, ServerApiVersion } from "mongodb";
 
 export default async function handler(
   req: NextApiRequest,
@@ -8,11 +10,37 @@ export default async function handler(
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
+  const cookie = req.headers.cookie;
+  if (!cookie) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+  const token = parse(cookie || "");
+  const user = JSON.parse(token.authToken || "{}");
+  if (!user) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+  const userId = user.id;
+  console.log("User ID from cookie:", userId);
 
+  // Connect to MongoDB
+  const client = new MongoClient(process.env?.MONGO_URI || "no-found", {
+    serverApi: {
+      version: ServerApiVersion.v1,
+      strict: true,
+      deprecationErrors: true,
+    },
+  });
+
+  const db = client.db("travel");
+  const collection = db.collection("user_trip");
+  // Fetch trips for the authenticated user
+  const trips = await collection.find({ userId: userId }).limit(5).toArray();
+
+  console.log("Fetched trips:", trips);
+  if (!trips) {
+    return res.status(500).json({ error: "Failed to fetch trips" });
+  }
   try {
-
-    
-
     const { startDate, endDate, budget, purpose } = req.body;
 
     // Here you would typically make a call to an LLM API like OpenAI
@@ -26,7 +54,8 @@ export default async function handler(
         budget,
         purpose,
         startDate,
-        endDate
+        endDate,
+        trips
       );
       if (Country) {
         try {

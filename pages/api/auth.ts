@@ -8,8 +8,8 @@ interface LoginRequestBody {
 
 // Mock user database - in a real app, this would be a database call
 const MOCK_USERS = [
-  { email: 'test@example.com', password: 'password123', name: 'Test User' },
-  { email: 'admin@example.com', password: 'admin123', name: 'Admin User' },
+  { email: 'test@example.com', password: 'password123', name: 'Test User', id: 1 },
+  { email: 'admin@example.com', password: 'admin123', name: 'Admin User', id: 2 },
 ];
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -38,7 +38,12 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     }
 
     // Generate mock token - in a real app, use a JWT library
-    const token = Buffer.from(`${user.email}-${Date.now()}`).toString('base64');
+    const token = JSON.stringify({
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      // Add any other user info you want to include in the token
+    });
 
     // Set cookie options
     const cookieOptions = {

@@ -82,9 +82,15 @@ const TripSummaryPage = () => {
   const handleSaveTrip = async () => {
     setSaveStatus("saving");
     try {
-      // Simulate API call to save trip
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      localStorage.setItem("tripSaved", "true");
+      const result = await fetch("/api/store-user-trip", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          tripData,
+        }),
+      });
       setSaveStatus("saved");
     } catch (error) {
       console.error("Error saving trip:", error);

@@ -11,20 +11,18 @@ export default async function handler(
   }
 
   try {
-    const { startDate, endDate, budget, purpose } = req.body;
+    const { startDate, endDate, budget, purpose, country} = req.body;
     
-    // Here you would typically make a call to an LLM API like OpenAI
-    // This is a mock response for demonstration purposes
-
+    
     const Agent = new LLM();
-    let parsedCountry;
+    let ParsedAcomodations;
     let hasNotFound = true;
 
     for (let i = 0; i < 20; i++) {
-      const Country = await Agent.getCountry(budget, purpose, startDate, endDate);
-      if (Country) {
+      const result = await Agent.getCountry(budget, purpose, startDate, endDate);
+      if (result) {
         try {
-          parsedCountry = JSON.parse(Country);
+          ParsedAcomodations = JSON.parse(result);
         } 
         catch (error) {
           console.error('Error parsing JSON:', error);
@@ -34,14 +32,12 @@ export default async function handler(
         break;
       }
     }
-    
 
-    if (!parsedCountry || hasNotFound) {
+    if (!ParsedAcomodations || hasNotFound) {
       return res.status(500).json({ error: 'Failed to generate itinerary' });
     }
-
     
-    return res.status(200).json(parsedCountry);
+    return res.status(200).json(ParsedAcomodations);
   } catch (error) {
     console.error('Error generating itinerary:', error);
     return res.status(500).json({ error: 'Failed to generate itinerary' });
